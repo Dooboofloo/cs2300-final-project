@@ -11,5 +11,10 @@ config_version=5
 [application]
 
 config/name="CS2300 Final Project"
+run/main_scene="res://Scenes/login_screen.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-sqlite/plugin.cfg")
