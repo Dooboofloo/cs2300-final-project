@@ -3,23 +3,22 @@ extends Node
 #global variables
 var db 
 var db_name = "res://DB Scripts/database"	#path to db
-var activeUser = "Bill" #Stores active user for sql queries
+var activeUser = "" #Stores active user for sql queries
 var currentChar = 0 #Stores current character uuid
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	db = SQLite.new()	#This creates the database
 	db.path = db_name	#This provides the path to the database
-	var intermission = getCharacters(4, "pity")
-	var count = intermission[0]
-	var data = intermission [1]
-	print(count)
-	print(data)
+
+
+
+
 
 
 #Login Screen Functions
 #=============================================
-func login(user: String, passW: String):
+func login(user: String, passW: String): #Runs if user tries to login
 	db.open_db()
 	var tableName = "User"
 	db.query("SELECT COUNT(1) FROM " + tableName + " WHERE username = '" + user + "' AND password = '" + passW + "'") #Finding if any matches exist
@@ -34,7 +33,7 @@ func login(user: String, passW: String):
 		return false #failure to login
 
 
-func register(user: String, passW: String):
+func register(user: String, passW: String): #Runs if the user hits the register button to register an account
 	db.open_db()
 	var tableName = "User"
 	db.query("SELECT COUNT(1) FROM " + tableName + " WHERE username = '" + user + "'") #Finding if any matches exist
@@ -59,11 +58,10 @@ func register(user: String, passW: String):
 
 #Main Screen Functions
 #============================================================
-#Pulls characters to be displayed based on current sort/search.
-#Returns number of results and results as an array.
-func getCharacters(sort = 0, search = ""):
+
+func getCharacters(sort = 0, search = ""):#Pulls characters to be displayed based on current sort/search. Returns number of results and results as an array.
 	db.open_db()
-	
+	# Note, these queries may have to change as currently we cannot cascade delete based on user since they are not connected.
 	db.query("SELECT COUNT(C.uuid) FROM Character C WHERE EXISTS
 			(SELECT * FROM 'Character Manager' M WHERE '" + activeUser + "' = M.user AND M.char_id = C.uuid)")
 	var resultAmount = db.query_result[0]["COUNT(C.uuid)"] #Done out here as always constant except after search sort
@@ -116,59 +114,410 @@ func getCharacters(sort = 0, search = ""):
 			return [0,0]
 
 
-func newChar(): #Creates a new blank character linked with the active user.
+func newChar(): #Creates a new blank character linked with the active user. Used for any new characters to be added.
 	db.open_db()
-	var dict : Dictionary = Dictionary()
-	#Since all char_id are set as unique we can just create the rows and they will auto link unless the user edits the database outside.
-	#So NO TOUCHY DATABASE OUTSIDE OF APPLICATION!!!!
-	db.insert_row("Character", dict) 
-	db.insert_row("'Ability Score'", dict) 
-	db.insert_row("Backstory", dict) 
-	db.insert_row("'Death Saves'", dict) 
-	db.insert_row("'Hit Dice'", dict) 
-	db.insert_row("'Hit Points'", dict) 
-	db.insert_row("Money", dict) 
-	db.insert_row("'Physical Stats", dict) 
-	db.insert_row("Skill", dict) 
-	db.insert_row("Spell", dict)
-	db.insert_row("'Spell Slot'", dict)  
-	db.insert_row("Spellcasting", dict) 
-	db.insert_row("Weapon", dict) 
+	#Upon new character a new uuid will be generated
 	
-	dict["user"] = activeUser
-	db.insert_row("'Character Manager'", dict) #Only thing which we actually need a value for.
+	addCharM(activeUser)#Setting up location in manager for all to reference	
 	
-	db.query("SELECT MAX(uuid) FROM Character")
-	currentChar = db.query_result[0]["MAX(uuid)"] #Setting the current char to the newly created one for getting data post screen change.
+	db.query("SELECT MAX(char_id) FROM 'Character Manager'")
+	currentChar = db.query_result[0]["MAX(char_id)"] #Setting the current char to the newly created one for getting data post screen change.	
+	print(currentChar)
 	
+	addChar() #creating a new character now to link to new row in Character Manager
+	
+	#make new row in character manager and character table.
+	#CM will take user and Character will take the newly generated uuid.
+	#The other tables will have their rows added with the currentChar as the condition put in when they are needed.
 	db.close_db()
 	
-	return fetchChar() #can be changed to any return which is actually needed.
+	return #a value can be added here to be returned if needed.
 
-func delChar(id):#deletes character based on given uuid
+
+
+func deleteChar(id):#deletes character based on given uuid. Requires that id.
 	db.open_db()
-	
-	db.query("DELETE FROM Character WHERE uuid = " + id) # This is the only line which should be needed if all foreign keys are CASCADE on delete.
-
+	db.query("DELETE FROM 'Character Manager' WHERE char_id = '" + str(id) + "'") # This is the only line which should be needed to delete a character since CASCADE
 	db.close_db()
 	
 	return
-
-
-func fetchChar(id = currentChar): #Fetch the character table based on uuid
-	db.open_db()
-	db.query("SELECT * FROM Character WHERE uuid = " + id)
-	db.close_db()
-	
-	return db.query_result
-	
-# need to make functions that fetch each specific table only for easy data access
-
-
 #=========================================================================
 
 
 
+#Character Screen Functions
+#Note: All these functions will assume the database is open already. They will also not close it.
+#	   This is because they are to be used within other functions. Not stand alone. If you want
+#	   them to be stand alone, adding open and close db, you must be make sure to open_db() after they run once more.
+#	   For all these functions assume string unless otherwise defined.
+#=========================================================================
+
+#Fetch Functions
+#Here is where you would change the queries to fetch data if PKs change.
+#Assume that column used in here is also marked as UNIQUE as it is part of PK.
+#================================================================================
+func fetchChar(id = currentChar): #Fetch the character table based on uuid
+	db.query("SELECT * FROM Character WHERE uuid = '" + str(id) + "'")
+	
+	return db.query_result
+
+
+#no real need for a User table fetch or Character manager one as we should already have all the data needed. Unless you wanted to frequently check ownership through it.
+
+
+func fetchAbilityScore(name, id = currentChar):
+	db.query("SELECT * FROM 'Ability Score' WHERE char_id = '" + str(id) + "' AND name = '" + name + "'")
+	
+	return db.query_result
+
+
+func fetchBackstory(id = currentChar):
+	db.query("SELECT * FROM Backstory WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
+
+
+func fetchDeathSaves(id = currentChar):
+	db.query("SELECT * FROM 'Death Saves' WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
+
+
+func fetchHitDice(id = currentChar):
+	db.query("SELECT * FROM 'Hit Dice' WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
+
+
+func fetchHitPoints(id = currentChar):
+	db.query("SELECT * FROM 'Hit Points' WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
+
+
+func fetchMoney(id = currentChar):
+	db.query("SELECT * FROM Money WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
+
+
+func fetchPhysicalStats(id = currentChar):
+	db.query("SELECT * FROM 'Physical Stats' WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
+
+
+func fetchSkill(govScore, skillName, id = currentChar):
+	db.query("SELECT * FROM Skill WHERE char_id = '" + str(id) + "' AND governing_score = '" + govScore + "' AND skill_name = '" + skillName + "'")
+	
+	return db.query_result
+
+
+func fetchSpell(spellName, id = currentChar):
+	db.query("SELECT * FROM Spell WHERE char_id = '" + str(id) + "' AND name = '" + spellName + "'")
+	
+	return db.query_result
+
+
+func fetchSpellSlot(slotLevel: int, id = currentChar):
+	db.query("SELECT * FROM 'Spell Slot' WHERE char_id = '" + str(id) + "' AND slot_level = '" + str(slotLevel) + "'")
+	
+	return db.query_result
+
+
+func fetchSpellcasting(id = currentChar):
+	db.query("SELECT * FROM Spellcasting WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
+
+
+func fetchWeapon(wepName, id = currentChar):
+	db.query("SELECT * FROM 'Weapon' WHERE owning_char = '" + str(id) + "' AND weapon_name = '" + wepName + "'")
+	
+	return db.query_result
+#=======================================================================================
+
+
+#Insert Functions
+#Here is where you would change base insertion things if NOT NULL conditions change.
+#The inserts will fail if the values are also marked as unique. If they are NOT NULL, mainly assume UNIQUE.
+#=======================================================================================
+func addChar(id = currentChar): #Add a new empty character to the character table linked to a user.
+	db.query("INSERT INTO Character(uuid) VALUES('" + str(id) + "')")
+	
+	return
+
+
+func addCharM(user = activeUser): #add to Character Manager table. By default connects to active user.
+	#Auto increment added a new table. Don't ask me. I could not delete it. Must be to make autoinc work. This also changed the primary key.
+	db.query("INSERT INTO 'Character Manager'(user) VALUES('" + user + "')")
+	
+	return
+
+
+#This is where the add function would be for user if we even did want it to exist. Only ever used on register so it is in that function.
+
+
+func addAbilityScore(name, id = currentChar):
+	db.query("INSERT INTO 'Ability Score'(char_id, name) VALUES('" + str(id) + "', '" + name + "')")
+	
+	return
+
+
+func addBackstory(id = currentChar):
+	db.query("INSERT INTO Backstory(char_id) VALUES('" + str(id) + "')")
+	
+	return
+
+
+func addDeathSaves(id = currentChar):
+	db.query("INSERT INTO 'Death Saves'(char_id) VALUES('" + str(id) + "')")
+	
+	return
+
+
+func addHitDice(id = currentChar):
+	db.query("INSERT INTO 'Hit Dice'(char_id) VALUES('" + str(id) + "')")
+	
+	return
+
+
+func addHitPoints(id = currentChar):
+	db.query("INSERT INTO 'Hit Points'(char_id) VALUES('" + str(id) + "')")
+	
+	return
+
+
+func addMoney(id = currentChar):
+	db.query("INSERT INTO Money(char_id) VALUES('" + str(id) + "')")
+	
+	return
+
+
+func addPhysicalStats(id = currentChar):
+	db.query("INSERT INTO 'Physical Stats'(char_id) VALUES('" + str(id) + "')")
+	
+	return
+
+
+func addSkill(govScore, skillName, id = currentChar):
+	db.query("INSERT INTO 'Skill'(char_id, governing_score, skill_name) VALUES('" + str(id) + "', '" + govScore + "', '" + skillName + "')")
+	
+	return
+
+
+func addSpell(spellName, id = currentChar):
+	db.query("INSERT INTO Spell(char_id, name) VALUES('" + str(id) + "', '" + spellName + "')")
+	
+	return
+
+
+func addSpellSlot(slotLevel: int, id = currentChar):
+	db.query("INSERT INTO 'Spell Slot'(char_id, slot_level) VALUES('" + str(id) + "', '" + str(slotLevel) + "')")
+	
+	return
+
+
+func addSpellcasting(id = currentChar):
+	db.query("INSERT INTO Spellcasting(char_id) VALUES('" + str(id) + "')")
+	
+	return
+
+
+func addWeapon(wepName, id = currentChar):
+	db.query("INSERT INTO Weapon(owning_char, weapon_name) VALUES('" + str(id) + "', '" + wepName + "')")
+	
+	return
+#===================================================================================================
+
+
+#Update Functions
+#Here is where you would edit conditions on which things get updated if FK changes or PK changes.
+#===================================================================================================
+func updateChar(dict, id = currentChar): #Update the data in the character. dict is a provided dictionary with all changes.
+	var tableName = "Character"
+	var condition = "uuid = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict) 
+	#Turns the given into a sql query based on input data.
+	#Simpler than coming up with the long query to update all columns based on input dict.
+	
+	return
+
+
+func updateCharM(dict, id = currentChar):
+	var tableName = "'Character Manager'"
+	var condition = "char_id = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateUser(dict, username): #Only use would be to change password of a user.
+	var tableName = "User"
+	var condition = "username = '" + username + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateAbilityScore(dict, name, id = currentChar):
+	var tableName = "'Ability Score'"
+	var condition = "char_id = '" + str(id) + "' AND name = '" + name + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateBackstory(dict, id = currentChar):
+	var tableName = "Backstory"
+	var condition = "char_id = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateDeathSaves(dict, id = currentChar):
+	var tableName = "'Death Saves'"
+	var condition = "char_id = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateHitDice(dict, id = currentChar):
+	var tableName = "'Hit Dice'"
+	var condition = "char_id = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateHitPoints(dict, id = currentChar):
+	var tableName = "'Hit Points'"
+	var condition = "char_id = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateMoney(dict, id = currentChar):
+	var tableName = "Money"
+	var condition = "char_id = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updatePhysicalStats(dict, id = currentChar):
+	var tableName = "'Physical Stats'"
+	var condition = "char_id = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateSkill(dict, govScore, skillName, id = currentChar):
+	var tableName = "Skill"
+	var condition = "char_id = '" + str(id) + "' AND governing_score = '" + govScore + "' AND skill_name = '" + skillName + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateSpell(dict, spellName, id = currentChar):
+	var tableName = "Spell"
+	var condition = "char_id = '" + str(id) + "' AND name = '" + spellName + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateSpellSlot(dict, slotLevel: int, id = currentChar):
+	var tableName = "'Spell Slot'"
+	var condition = "char_id = '" + str(id) + "' AND slot_level = '" + str(slotLevel) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateSpellcasting(dict, id = currentChar):
+	var tableName = "Spellcasting"
+	var condition = "char_id = '" + str(id) + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+
+
+func updateWeapon(dict, wepName, id = currentChar):
+	var tableName = "Weapon"
+	var condition = "char_id = '" + str(id) + "' AND weapon_name = '" + wepName + "'"
+	db.update_rows(tableName, condition, dict)
+	
+	return
+#===================================================================================================
+
+
+#Delete Functions
+#For all your single delete needs. Just make note of somes cascade effect with others like Ability Score and the higher level tables
+#Like with update here is where you would edit conditions on which things get updated if FK changes or PK changes.
+#Alot less in here as some make no sense regarding everbeing singularly deleted.
+#===================================================================================================
+func deleteUser(username):
+	db.query("DELETE FROM 'User' WHERE username = '" + username + "'") # This is the only line which should be needed to delete a character since CASCADE
+	
+	return
+
+
+func deleteBackstory(id):
+	db.query("DELETE FROM 'Backstory' WHERE char_id = '" + str(id) + "'") 
+	
+	return
+
+
+func deleteSkill(id, govScore, skillName):
+	db.query("DELETE FROM 'Skill' WHERE char_id = '" + str(id) + "' AND governing_score = '" + govScore + "' AND skill_name = '" + skillName + "'") 
+	
+	return
+
+
+func deleteSpell(id, spellName):
+	db.query("DELETE FROM 'Spell' WHERE char_id = '" + str(id) + "' AND name = '" + spellName + "'") 
+	
+	return
+
+
+
+func deleteSpellSlot(id, slotLevel): #This function could easily be completely useless. Edit PKs if so to fix conditions here.
+	db.query("DELETE FROM 'Spell Slot' WHERE char_id = '" + str(id) + "' AND slot_level = '" + str(slotLevel) + "'") 
+	
+	return
+
+
+
+func deleteSpellcasting(id):
+	db.query("DELETE FROM 'Spellcasting' WHERE char_id = '" + str(id) + "'") 
+	
+	return
+
+
+func deleteWeapon(id, wepName):
+	db.query("DELETE FROM 'Weapon' WHERE char_id = '" + str(id) + "' AND weapon_name = '" + wepName + "'") 
+	
+	return
+#===================================================================================================
+
+
+
+
+
+
+
+
+
+
+#Learning Functions
+#No real purpose except serving as examples of the sql extension in godot.
+#===================================================================================================
 func commitDataToDB():
 	db.open_db()	#opening the database
 	var tableName = "Character"      #name of the table within the database we want
