@@ -68,12 +68,12 @@ custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 alignment = 1
 
-[node name="UsernameTextEdit" type="TextEdit" parent="LoginContainer/LoginPanel/MarginContainer/LoginVBoxContainer"]
+[node name="UsernameTextEdit" type="LineEdit" parent="LoginContainer/LoginPanel/MarginContainer/LoginVBoxContainer"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 placeholder_text = "Username"
 
-[node name="PasswordTextEdit" type="TextEdit" parent="LoginContainer/LoginPanel/MarginContainer/LoginVBoxContainer"]
+[node name="PasswordTextEdit" type="LineEdit" parent="LoginContainer/LoginPanel/MarginContainer/LoginVBoxContainer"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 placeholder_text = "Password"
