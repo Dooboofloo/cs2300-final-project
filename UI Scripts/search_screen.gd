@@ -29,6 +29,7 @@ func refresh_list(sort_mode = 0, search = ""):
 	for char in data:
 		var blurb = sheetblurb.instantiate()
 		# blurb.charId = # TODO: Figure out how to give the function the character id here
+		# Iain Note: You could use a for loop with data[i]["uuid"] to grab uuid of each row. Then in future use the fetchChar(id) function for its data.
 		blurb.charDetails = char
 		CharList.add_child(blurb)
 		
