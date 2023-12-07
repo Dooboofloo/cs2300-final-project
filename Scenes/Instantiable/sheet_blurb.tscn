@@ -1,14 +1,68 @@
-[gd_scene format=3 uid="uid://dwq6mt200jeyx"]
+[gd_scene load_steps=2 format=3 uid="uid://dwq6mt200jeyx"]
 
-[node name="SheetBlurb" type="Control"]
-layout_mode = 3
+[ext_resource type="Script" path="res://UI Scripts/sheet_blurb.gd" id="1_0ug1y"]
+
+[node name="SheetBlurb" type="PanelContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -849.0
+offset_bottom = -552.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_0ug1y")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CharName" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Character Name"
+
+[node name="LParen" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "("
+
+[node name="Level" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Level"
+
+[node name="Class" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Class"
+
+[node name="RParen" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = ")"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Notes" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "Notes..."
+text_overrun_behavior = 3
+
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ViewButton" type="Button" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "View"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/ViewButton" to="." method="_on_view_button_pressed"]

@@ -33,25 +33,95 @@ metadata/_edit_lock_ = true
 
 [node name="UserContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-offset_left = 4.0
-offset_right = 14.0
+offset_right = 251.0
 offset_bottom = 45.0
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 10
+metadata/_edit_lock_ = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UserContainer"]
 layout_mode = 2
+
+[node name="LogOutButton" type="Button" parent="UserContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+text = "Log Out"
 
 [node name="UserLabel" type="Label" parent="UserContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 theme_override_styles/normal = SubResource("StyleBoxFlat_me8ph")
-text = "Current User:"
+text = " Current User: "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LogOutButton" type="Button" parent="UserContainer/HBoxContainer"]
+[node name="CharListContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.333333
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 50
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="CharListContainer"]
 layout_mode = 2
-text = "Log Out"
+
+[node name="MarginContainer" type="MarginContainer" parent="CharListContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CharListContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="CharacterList" type="VBoxContainer" parent="CharListContainer/PanelContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SideContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+anchor_right = 0.333333
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 50
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="SideContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SideContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SideContainer/Panel/MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="NewCharacterButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "New Character"
 
 [connection signal="pressed" from="UserContainer/HBoxContainer/LogOutButton" to="." method="_on_log_out_button_pressed"]
+[connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer/NewCharacterButton" to="." method="_on_new_character_button_pressed"]

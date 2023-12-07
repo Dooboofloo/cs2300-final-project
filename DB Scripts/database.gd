@@ -1,5 +1,12 @@
 extends Node
 
+const NEW_CHARACTER = {
+	'name': "New Character",
+	'level': 1,
+	'class': 'Bard',
+	'notes': 'Notes go here...'
+}
+
 #global variables
 var db 
 var db_name = "res://DB Scripts/database"	#path to db
@@ -245,6 +252,8 @@ func fetchWeapon(wepName, id = currentChar):
 #=======================================================================================
 func addChar(id = currentChar): #Add a new empty character to the character table linked to a user.
 	db.query("INSERT INTO Character(uuid) VALUES('" + str(id) + "')")
+	# set newly added character's attributes to default
+	updateChar(NEW_CHARACTER)
 	
 	return
 

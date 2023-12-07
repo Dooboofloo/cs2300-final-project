@@ -10,3 +10,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bi2ul")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 363.0
+offset_top = 101.0
+offset_right = 643.0
+offset_bottom = 231.0
+text = "a"
