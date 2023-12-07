@@ -131,7 +131,6 @@ func newChar(): #Creates a new blank character linked with the active user. Used
 	
 	db.query("SELECT MAX(char_id) FROM 'Character Manager'")
 	currentChar = db.query_result[0]["MAX(char_id)"] #Setting the current char to the newly created one for getting data post screen change.	
-	print(currentChar)
 	
 	addChar() #creating a new character now to link to new row in Character Manager
 	
