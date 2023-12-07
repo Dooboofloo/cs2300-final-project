@@ -119,6 +119,7 @@ func getCharacters(sort = 0, search = ""):#Pulls characters to be displayed base
 			return [resultAmount, db.query_result]
 			
 		_: #Any other number
+			db.close_db()
 			print("Invalid sort procedure.") #some sort of pop up warning if they somehow do this
 			return [0,0]
 
