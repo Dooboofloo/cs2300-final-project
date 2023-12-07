@@ -38,10 +38,10 @@ func register(user: String, passW: String): #Runs if the user hits the register 
 	var tableName = "User"
 	db.query("SELECT COUNT(1) FROM " + tableName + " WHERE username = '" + user + "'") #Finding if any matches exist
 	var exist = db.query_result[0]["COUNT(1)"]
-	db.close_db()
 	
 	if(bool(exist) == true):
 		print("User already exists.") #Replace with some UI message
+		db.close_db()
 		return false #user or pass exists in registry
 	else:
 		#add user to registry.
@@ -49,6 +49,7 @@ func register(user: String, passW: String): #Runs if the user hits the register 
 		dict["username"] = user
 		dict["password"] = passW
 		db.insert_row(tableName, dict)
+		db.close_db()
 		return true
 
 #We could add a function to change password. Doing so would just need user and then an UPDATE query.

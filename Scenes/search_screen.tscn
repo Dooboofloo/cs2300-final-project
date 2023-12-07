@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0cdouvudcivi"]
+
+[ext_resource type="Script" path="res://UI Scripts/search_screen.gd" id="1_7l7x0"]
+[ext_resource type="Texture2D" uid="uid://b0r8mynjuiqj5" path="res://Images/other_bg.jpg" id="2_1h1wo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_me8ph"]
+bg_color = Color(0, 0, 0, 0.498039)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="SearchScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7l7x0")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -56.0
+offset_right = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_1h1wo")
+metadata/_edit_lock_ = true
+
+[node name="UserContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+offset_left = 4.0
+offset_right = 14.0
+offset_bottom = 45.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UserContainer"]
+layout_mode = 2
+
+[node name="UserLabel" type="Label" parent="UserContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+theme_override_styles/normal = SubResource("StyleBoxFlat_me8ph")
+text = "Current User:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LogOutButton" type="Button" parent="UserContainer/HBoxContainer"]
+layout_mode = 2
+text = "Log Out"
+
+[connection signal="pressed" from="UserContainer/HBoxContainer/LogOutButton" to="." method="_on_log_out_button_pressed"]
