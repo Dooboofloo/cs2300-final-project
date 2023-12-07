@@ -9,7 +9,8 @@ const NEW_CHARACTER = {
 
 #global variables
 var db 
-var db_name = "res://DB Scripts/database"	#path to db
+#(!!!TODO!!!: path must be changed to 'user://database' for release, otherwise we can not write to the db with godot)
+var db_name = "res://DB Scripts/database"	#path to db 
 var activeUser = "" #Stores active user for sql queries
 var currentChar = 0 #Stores current character uuid
 

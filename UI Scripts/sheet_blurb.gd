@@ -16,3 +16,4 @@ func _ready():
 
 func _on_view_button_pressed():
 	print(charId)
+	# Switch scene to character sheet view with Database.currentChar = charId
