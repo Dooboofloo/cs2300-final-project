@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dqcgchlnvf76e"]
+[gd_scene load_steps=20 format=3 uid="uid://dqcgchlnvf76e"]
 
 [ext_resource type="Script" path="res://UI Scripts/char_sheet_screen.gd" id="1_bi2ul"]
 [ext_resource type="Texture2D" uid="uid://b0r8mynjuiqj5" path="res://Images/other_bg.jpg" id="2_ytbjr"]
@@ -37,6 +37,10 @@ thickness = 2
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_sn7mt"]
 color = Color(1, 1, 1, 1)
 thickness = 2
+
+[sub_resource type="ImageTexture" id="ImageTexture_iacyd"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_02kb4"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_2juy7"]
 color = Color(0.592157, 0.592157, 0.592157, 1)
@@ -856,6 +860,306 @@ vertical_alignment = 1
 layout_mode = 2
 theme_override_styles/separator = SubResource("StyleBoxLine_sn7mt")
 
+[node name="HBoxContainer" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SpellSlots" type="VBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="SpellSlotsLabel" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+text = "Spell Slots"
+horizontal_alignment = 1
+
+[node name="SpellSlots1" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots1"]
+layout_mode = 2
+text = "1st ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots1"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 4.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots1"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots1"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 4.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots1"]
+layout_mode = 2
+text = ")
+"
+
+[node name="SpellSlots2" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots2"]
+layout_mode = 2
+text = "2nd ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots2"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 3.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots2"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots2"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 3.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots2"]
+layout_mode = 2
+text = ")
+"
+
+[node name="SpellSlots3" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots3"]
+layout_mode = 2
+text = "3rd ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots3"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 3.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots3"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots3"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 3.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots3"]
+layout_mode = 2
+text = ")
+"
+
+[node name="SpellSlots4" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots4"]
+layout_mode = 2
+text = "4th ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots4"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 3.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots4"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots4"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 3.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots4"]
+layout_mode = 2
+text = ")
+"
+
+[node name="SpellSlots5" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots5"]
+layout_mode = 2
+text = "5th ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots5"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 3.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots5"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots5"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 3.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots5"]
+layout_mode = 2
+text = ")
+"
+
+[node name="SpellSlots6" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots6"]
+layout_mode = 2
+text = "6th ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots6"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 2.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots6"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots6"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 2.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots6"]
+layout_mode = 2
+text = ")
+"
+
+[node name="SpellSlots7" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots7"]
+layout_mode = 2
+text = "7th ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots7"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 2.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots7"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots7"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 2.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots7"]
+layout_mode = 2
+text = ")
+"
+
+[node name="SpellSlots8" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots8"]
+layout_mode = 2
+text = "8th ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots8"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 1.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots8"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots8"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 1.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots8"]
+layout_mode = 2
+text = ")
+"
+
+[node name="SpellSlots9" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots9"]
+layout_mode = 2
+text = "9th ("
+
+[node name="Expended" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots9"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_iacyd")
+max_value = 1.0
+alignment = 1
+
+[node name="Divider" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots9"]
+layout_mode = 2
+text = "/"
+
+[node name="Total" type="SpinBox" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots9"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_02kb4")
+max_value = 1.0
+alignment = 1
+
+[node name="End" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots9"]
+layout_mode = 2
+text = ")
+"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SpellsLabel" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Spells "
+horizontal_alignment = 1
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+stretch_mode = 1
+alignment_horizontal = 0
+
+[node name="AddSpellButton" type="Button" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+text = "+"
+
+[node name="HSeparator" type="HSeparator" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 7
+theme_override_styles/separator = SubResource("StyleBoxEmpty_g4k5d")
+
+[node name="WeaponsScrollBox" type="ScrollContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Spells" type="VBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2/WeaponsScrollBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
 [node name="SideContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -989,6 +1293,7 @@ text = "Delete Character"
 [connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/Persuasion" to="." method="_on_persuasion_toggled"]
 [connection signal="pressed" from="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/HBoxContainer/AspectRatioContainer/AddWeaponButton" to="." method="_on_add_weapon_button_pressed"]
 [connection signal="item_selected" from="CharContainer/TabBar/Spellcasting/VBoxContainer/Spellcasting/SpellcastingAbility" to="." method="_on_spellcasting_ability_item_selected"]
+[connection signal="pressed" from="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer/AspectRatioContainer/AddSpellButton" to="." method="_on_add_spell_button_pressed"]
 [connection signal="value_changed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Level" to="." method="_on_level_value_changed"]
 [connection signal="item_selected" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Class" to="." method="_on_class_item_selected"]
 [connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DeleteButton" to="." method="_on_delete_button_pressed"]

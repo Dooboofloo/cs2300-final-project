@@ -1,6 +1,7 @@
 extends Control
 
 var weaponBlurb = preload("res://Scenes/Instantiable/weapon_blurb.tscn")
+var spellBlurb = preload("res://Scenes/Instantiable/spell_blurb.tscn")
 
 @onready var delete_button = $SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DeleteButton
 
@@ -96,6 +97,7 @@ var cSkills = {}
 @onready var cPP = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money/PP
 
 @onready var weaponsNode = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/WeaponsScrollBox/Weapons
+@onready var spellsNode = $CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/VBoxContainer2/WeaponsScrollBox/Spells
 
 @onready var cSpellAbility = $CharContainer/TabBar/Spellcasting/VBoxContainer/Spellcasting/SpellcastingAbility
 @onready var cSpellDC = $CharContainer/TabBar/Spellcasting/VBoxContainer/Spellcasting/SaveDCPanel/SaveDC
@@ -105,6 +107,7 @@ func _ready():
 	print("Loaded character: " + str(Database.currentChar))
 	load_char_data()
 	refresh_weapons()
+	refresh_spell_list()
 
 func _input(_event):
 	if Input.is_action_just_pressed("save"):
@@ -135,6 +138,12 @@ func load_char_data():
 	print(Spellcasting)
 	if Spellcasting['ability_score'] != null:
 		refresh_spell_stuff(Spellcasting['ability_score'])
+	
+	# Spell Slots
+	for i in range (1, 10):
+		var slot = Database.fetchSpellSlot(i)[0]
+		get_node("CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots%s/Expended" % str(i)).value = slot['num_expended']
+		get_node("CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots%s/Total" % str(i)).value = slot['total']
 	
 	Database.db.close_db()
 	
@@ -194,7 +203,6 @@ func load_char_data():
 	cEP.value = int(Money['ep'])
 	cGP.value = int(Money['gp'])
 	cPP.value = int(Money['pp'])
-	
 
 func _on_back_button_pressed():
 	Database.currentChar = 0 # Reset database current char
@@ -272,13 +280,26 @@ func _on_save_button_pressed():
 		
 		var skillDict = {}
 		skillDict['proficiency_mult'] = int(skillNode.button_pressed)
-		#skillDict['bonus'] = int(something)
+		#skillDict['bonus'] = int(something) #TODO
 		
 		Database.updateSkill(skillDict, skill['skill_name'])
 	
+	# Weapons
 	for w in weaponsNode.get_children():
 		var wpnDict = w.get_values()
 		Database.updateWeapon(wpnDict, wpnDict['weapon_id'])
+	
+	# Spell Slots
+	for i in range (1, 10):
+		var slotDict = {}
+		slotDict['num_expended'] = get_node("CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots%s/Expended" % str(i)).value
+		slotDict['total'] = get_node("CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots%s/Total" % str(i)).value 
+		Database.updateSpellSlot(slotDict, i)
+	
+	# Spells 
+	for s in spellsNode.get_children():
+		var splDict = s.get_values()
+		Database.updateSpell(splDict, splDict['spell_id'])
 	
 	Database.db.close_db()
 
@@ -457,3 +478,20 @@ func refresh_spell_stuff(ability):
 func _on_spellcasting_ability_item_selected(index):
 	var ability = SC_ABILITIES[index]
 	refresh_spell_stuff(ability)
+
+func refresh_spell_list():
+	for n in spellsNode.get_children():
+		spellsNode.remove_child(n)
+	
+	Database.db.open_db()
+	for s in Database.fetchSpells():
+		var splBlrb = spellBlurb.instantiate()
+		splBlrb.spellDetails = s
+		spellsNode.add_child(splBlrb)
+	Database.db.close_db()
+
+func _on_add_spell_button_pressed():
+	Database.db.open_db()
+	Database.addSpell()
+	Database.db.close_db()
+	refresh_spell_list()

@@ -261,6 +261,11 @@ func fetchSpell(spellName, id = currentChar):
 	
 	return db.query_result
 
+func fetchSpells(id = currentChar):
+	# TODO: Sort by lvl
+	db.query("SELECT * FROM Spell WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
 
 func fetchSpellSlot(slotLevel: int, id = currentChar):
 	db.query("SELECT * FROM 'Spell Slot' WHERE char_id = '" + str(id) + "' AND slot_level = '" + str(slotLevel) + "'")
@@ -356,7 +361,7 @@ func addSkill(govScore, skillName, id = currentChar):
 	return
 
 
-func addSpell(spellName, id = currentChar):
+func addSpell(spellName = 'Spell Name', id = currentChar):
 	db.query("INSERT INTO Spell(char_id, name) VALUES('" + str(id) + "', '" + spellName + "')")
 	
 	return
@@ -474,9 +479,9 @@ func updateSkill(dict, skillName, id = currentChar):
 	return
 
 
-func updateSpell(dict, spellName, id = currentChar):
+func updateSpell(dict, spellId, id = currentChar):
 	var tableName = "Spell"
-	var condition = "char_id = '" + str(id) + "' AND name = '" + spellName + "'"
+	var condition = "char_id = '" + str(id) + "' AND spell_id = '" + str(spellId) + "'"
 	db.update_rows(tableName, condition, dict)
 	
 	return
