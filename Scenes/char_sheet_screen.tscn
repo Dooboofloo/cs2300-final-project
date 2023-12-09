@@ -16,8 +16,6 @@ vertical = true
 
 [sub_resource type="ImageTexture" id="ImageTexture_xbm8c"]
 
-[sub_resource type="ImageTexture" id="ImageTexture_pds8n"]
-
 [sub_resource type="ImageTexture" id="ImageTexture_qw0k3"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_qx87e"]
@@ -31,6 +29,8 @@ color = Color(1, 1, 1, 1)
 thickness = 2
 
 [sub_resource type="ImageTexture" id="ImageTexture_hmd53"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_hhasu"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_2juy7"]
 color = Color(0.592157, 0.592157, 0.592157, 1)
@@ -57,6 +57,7 @@ texture = ExtResource("2_ytbjr")
 metadata/_edit_lock_ = true
 
 [node name="BackContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 offset_right = 409.0
 offset_bottom = 45.0
 theme_override_constants/margin_left = 25
@@ -76,6 +77,7 @@ text = "Back"
 [node name="SaveButton" type="Button" parent="BackContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "You can also press Ctrl + S to save."
 text = "Save Character"
 
 [node name="CharContainer" type="MarginContainer" parent="."]
@@ -97,7 +99,7 @@ metadata/_edit_lock_ = true
 [node name="TabBar" type="TabContainer" parent="CharContainer"]
 layout_mode = 2
 tab_alignment = 1
-current_tab = 1
+current_tab = 2
 metadata/_edit_lock_ = true
 
 [node name="Info" type="MarginContainer" parent="CharContainer/TabBar"]
@@ -118,10 +120,13 @@ theme_override_constants/separation = 10
 
 [node name="HealthLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/Health"]
 layout_mode = 2
-text = "Hit Points: "
+size_flags_horizontal = 8
+text = "Hit Points:"
+horizontal_alignment = 2
 
 [node name="Health" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/Health"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_icons/updown = SubResource("ImageTexture_16ieu")
 allow_greater = true
 alignment = 1
@@ -132,10 +137,13 @@ theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
 
 [node name="MaxHPLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/Health"]
 layout_mode = 2
-text = "HP Maximum: "
+size_flags_horizontal = 8
+text = "HP Maximum:"
+horizontal_alignment = 2
 
 [node name="MaxHP" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/Health"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_icons/updown = SubResource("ImageTexture_xg3q4")
 allow_greater = true
 alignment = 1
@@ -146,10 +154,13 @@ theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
 
 [node name="TempHPLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/Health"]
 layout_mode = 2
-text = "Temporary HP: "
+size_flags_horizontal = 8
+text = "Temporary HP:"
+horizontal_alignment = 2
 
 [node name="TempHP" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/Health"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_icons/updown = SubResource("ImageTexture_1bs41")
 allow_greater = true
 alignment = 1
@@ -159,10 +170,13 @@ layout_mode = 2
 
 [node name="HitDiceLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
-text = "Hit Dice: "
+size_flags_horizontal = 8
+text = "Hit Dice:"
+horizontal_alignment = 2
 
 [node name="HitDice" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_icons/updown = SubResource("ImageTexture_xbm8c")
 allow_greater = true
 alignment = 1
@@ -173,15 +187,24 @@ theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
 
 [node name="HitDiceTotalLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
-text = "Hit Dice Total: "
+size_flags_horizontal = 8
+text = "Hit Dice Total:"
+horizontal_alignment = 2
 
-[node name="HitDiceTotal" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
+[node name="HitDiceTotalPanel" type="Panel" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
-theme_override_icons/updown = SubResource("ImageTexture_pds8n")
-min_value = 1.0
-max_value = 20.0
-value = 1.0
-suffix = "d10"
+size_flags_horizontal = 3
+
+[node name="HitDiceTotal" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS/HitDiceTotalPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "4d8"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VSeparator4" type="VSeparator" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
@@ -189,27 +212,31 @@ theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
 
 [node name="DeathSavesLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
-text = "Death Saves: ("
-
-[node name="SuccessLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
-layout_mode = 2
-text = "S: "
+size_flags_horizontal = 8
+text = "Death Saves: ( S:"
+horizontal_alignment = 2
 
 [node name="DSSuccess" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
+size_flags_horizontal = 3
 max_value = 3.0
 
 [node name="FailLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
+size_flags_horizontal = 8
 text = "/ F:"
+horizontal_alignment = 2
 
 [node name="DSFail" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
+size_flags_horizontal = 3
 max_value = 3.0
 
 [node name="FailLabel2" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/HitDiceDS"]
 layout_mode = 2
+size_flags_horizontal = 8
 text = ")"
+horizontal_alignment = 2
 
 [node name="PhysStats" type="HBoxContainer" parent="CharContainer/TabBar/Info/VBoxContainer"]
 layout_mode = 2
@@ -217,10 +244,13 @@ theme_override_constants/separation = 10
 
 [node name="ACLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
-text = "Armor Class: "
+size_flags_horizontal = 8
+text = "Armor Class:"
+horizontal_alignment = 2
 
 [node name="AC" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_icons/updown = SubResource("ImageTexture_qw0k3")
 allow_greater = true
 alignment = 1
@@ -231,10 +261,13 @@ theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
 
 [node name="InitiativeLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
-text = "Initiative: "
+size_flags_horizontal = 8
+text = "Initiative:"
+horizontal_alignment = 2
 
 [node name="Initiative" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_icons/updown = SubResource("ImageTexture_qx87e")
 allow_greater = true
 allow_lesser = true
@@ -246,10 +279,13 @@ theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
 
 [node name="SpeedLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
-text = "Speed: "
+size_flags_horizontal = 8
+text = "Speed:"
+horizontal_alignment = 2
 
 [node name="Speed" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_icons/updown = SubResource("ImageTexture_hfyoh")
 allow_greater = true
 alignment = 1
@@ -260,10 +296,13 @@ theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
 
 [node name="PBLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
-text = "PB: "
+size_flags_horizontal = 8
+text = "PB:"
+horizontal_alignment = 2
 
 [node name="PB" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
+size_flags_horizontal = 6
 theme_override_icons/updown = SubResource("ImageTexture_d6tms")
 min_value = 2.0
 max_value = 6.0
@@ -275,7 +314,67 @@ layout_mode = 2
 theme_override_constants/separation = 10
 theme_override_styles/separator = SubResource("StyleBoxLine_phaht")
 
+[node name="Backstory" type="HBoxContainer" parent="CharContainer/TabBar/Info/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="RaceLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/Backstory"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Race:"
+horizontal_alignment = 1
+
+[node name="Race" type="LineEdit" parent="CharContainer/TabBar/Info/VBoxContainer/Backstory"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+expand_to_text_length = true
+
+[node name="VSeparator" type="VSeparator" parent="CharContainer/TabBar/Info/VBoxContainer/Backstory"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
+
+[node name="BackgroundLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/Backstory"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Background:"
+horizontal_alignment = 1
+
+[node name="Background" type="LineEdit" parent="CharContainer/TabBar/Info/VBoxContainer/Backstory"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+expand_to_text_length = true
+
+[node name="VSeparator2" type="VSeparator" parent="CharContainer/TabBar/Info/VBoxContainer/Backstory"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_2dqfa")
+
+[node name="AlignmentLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/Backstory"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Alignment:"
+horizontal_alignment = 1
+
+[node name="Alignment" type="LineEdit" parent="CharContainer/TabBar/Info/VBoxContainer/Backstory"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+expand_to_text_length = true
+
+[node name="EquipmentLabel" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer"]
+layout_mode = 2
+text = "Equipment & Character Notes"
+vertical_alignment = 2
+
+[node name="Equipment" type="TextEdit" parent="CharContainer/TabBar/Info/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+wrap_mode = 1
+
 [node name="Stats" type="MarginContainer" parent="CharContainer/TabBar"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
@@ -560,12 +659,106 @@ theme_override_font_sizes/font_size = 10
 text = "Persuasion (%s)"
 
 [node name="Inventory" type="MarginContainer" parent="CharContainer/TabBar"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharContainer/TabBar/Inventory"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharContainer/TabBar/Inventory/HBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Money"
+horizontal_alignment = 1
+
+[node name="Money" type="GridContainer" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+columns = 2
+
+[node name="CPLabel" type="Label" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+text = "CP:"
+
+[node name="CP" type="SpinBox" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_hhasu")
+allow_greater = true
+alignment = 1
+
+[node name="SPLabel" type="Label" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+text = "SP:"
+
+[node name="SP" type="SpinBox" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_hhasu")
+allow_greater = true
+alignment = 1
+
+[node name="EPLabel" type="Label" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+text = "EP:"
+
+[node name="EP" type="SpinBox" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_hhasu")
+allow_greater = true
+alignment = 1
+
+[node name="GPLabel" type="Label" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+text = "GP:"
+
+[node name="GP" type="SpinBox" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_hhasu")
+allow_greater = true
+alignment = 1
+
+[node name="PPLabel" type="Label" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+text = "PP:"
+
+[node name="PP" type="SpinBox" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money"]
+layout_mode = 2
+theme_override_icons/updown = SubResource("ImageTexture_hhasu")
+allow_greater = true
+alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CharContainer/TabBar/Inventory/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="WeaponsLabel" type="Label" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Weapons"
+horizontal_alignment = 1
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+stretch_mode = 1
+alignment_horizontal = 0
+
+[node name="AddWeaponButton" type="Button" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/HBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+text = "+"
+
+[node name="WeaponsScrollBox" type="ScrollContainer" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Weapons" type="VBoxContainer" parent="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/WeaponsScrollBox"]
+layout_mode = 2
 
 [node name="Spellcasting" type="MarginContainer" parent="CharContainer/TabBar"]
 visible = false
@@ -706,6 +899,7 @@ text = "Delete Character"
 [connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/Intimidation" to="." method="_on_intimidation_toggled"]
 [connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/Performance" to="." method="_on_performance_toggled"]
 [connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/Persuasion" to="." method="_on_persuasion_toggled"]
+[connection signal="pressed" from="CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/HBoxContainer/AspectRatioContainer/AddWeaponButton" to="." method="_on_add_weapon_button_pressed"]
 [connection signal="value_changed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Level" to="." method="_on_level_value_changed"]
 [connection signal="item_selected" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Class" to="." method="_on_class_item_selected"]
 [connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DeleteButton" to="." method="_on_delete_button_pressed"]

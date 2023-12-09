@@ -1,5 +1,7 @@
 extends Control
 
+var weaponBlurb = preload("res://Scenes/Instantiable/weapon_blurb.tscn")
+
 @onready var delete_button = $SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DeleteButton
 
 const CLASS_TO_ID = {
@@ -45,7 +47,7 @@ const CLASS_HD = {
 @onready var cTempHP = $CharContainer/TabBar/Info/VBoxContainer/Health/TempHP
 
 @onready var cHitDice = $CharContainer/TabBar/Info/VBoxContainer/HitDiceDS/HitDice
-@onready var cHitDiceTotal = $CharContainer/TabBar/Info/VBoxContainer/HitDiceDS/HitDiceTotal
+@onready var cHitDiceTotal = $CharContainer/TabBar/Info/VBoxContainer/HitDiceDS/HitDiceTotalPanel/HitDiceTotal
 @onready var cDSSuccess = $CharContainer/TabBar/Info/VBoxContainer/HitDiceDS/DSSuccess
 @onready var cDSFail = $CharContainer/TabBar/Info/VBoxContainer/HitDiceDS/DSFail
 
@@ -79,9 +81,27 @@ var cASMods = {
 }
 var cSkills = {}
 
+@onready var cRace = $CharContainer/TabBar/Info/VBoxContainer/Backstory/Race
+@onready var cBackground = $CharContainer/TabBar/Info/VBoxContainer/Backstory/Background
+@onready var cAlignment = $CharContainer/TabBar/Info/VBoxContainer/Backstory/Alignment
+
+@onready var cEquipment = $CharContainer/TabBar/Info/VBoxContainer/Equipment
+
+@onready var cCP = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money/CP
+@onready var cSP = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money/SP
+@onready var cEP = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money/EP
+@onready var cGP = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money/GP
+@onready var cPP = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer/Money/PP
+
+@onready var weaponsNode = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/WeaponsScrollBox/Weapons
+
 func _ready():
 	print("Loaded character: " + str(Database.currentChar))
 	load_char_data()
+
+func _input(_event):
+	if Input.is_action_just_pressed("save"):
+		_on_save_button_pressed()
 
 func load_char_data():
 	Database.db.open_db()
@@ -118,8 +138,9 @@ func load_char_data():
 	cName.text = Char['name']
 	cLevel.value = int(Char['level'])
 	cClass.selected = int(CLASS_TO_ID[str(Char['class'])])
-	cNotes.text = str(Char['notes'])
 	cPB.value = int(Char['prof_bonus'])
+	cEquipment.text = str(Char['equipment'])
+	cNotes.text = str(Char['notes'])
 	
 	# HP
 	cHP.value = int(HitPoints['current'])
@@ -128,8 +149,7 @@ func load_char_data():
 	
 	# Hit Dice and Death Saves
 	cHitDice.value = int(HitDice['num_used'])
-	cHitDiceTotal.value = int(HitDice['total'])
-	cHitDiceTotal.suffix = 'd' + str(HitDice['type'])
+	cHitDiceTotal.text = str(HitDice['total']) + 'd' + str(HitDice['type'])
 	cDSSuccess.value = int(DeathSaves['num_success'])
 	cDSFail.value = int(DeathSaves['num_fail'])
 	
@@ -151,12 +171,21 @@ func load_char_data():
 		cASMods[scoreName] = int(AbilityScores[scoreName]['modifier'])
 		calculate_modifier(scoreName, cAS[scoreName].value)
 	
+	# Backstory
+	cRace.text = str(Backstory['race'])
+	cBackground.text = str(Backstory['background'])
+	cAlignment.text = str(Backstory['alignment'])
 	
+	# Money
+	cCP.value = int(Money['cp'])
+	cSP.value = int(Money['sp'])
+	cEP.value = int(Money['ep'])
+	cGP.value = int(Money['gp'])
+	cPP.value = int(Money['pp'])
 
 func _on_back_button_pressed():
 	Database.currentChar = 0 # Reset database current char
 	get_tree().change_scene_to_file("res://Scenes/search_screen.tscn")
-
 
 func _on_save_button_pressed():
 	# Commit changes to the DB
@@ -166,8 +195,9 @@ func _on_save_button_pressed():
 	charDict['name'] = cName.text
 	charDict['level'] = cLevel.value
 	charDict['class'] = CLASS_TO_ID.keys()[cClass.selected]
-	charDict['notes'] = cNotes.text
 	charDict['prof_bonus'] = cPB.value
+	charDict['equipment'] = cEquipment.text
+	charDict['notes'] = cNotes.text
 	
 	var hpDict = {}
 	hpDict['current'] = cHP.value
@@ -176,8 +206,9 @@ func _on_save_button_pressed():
 	
 	var hdDict = {}
 	hdDict['num_used'] = cHitDice.value
-	hdDict['total'] = int(cHitDiceTotal.value)
-	hdDict['type'] = int(cHitDiceTotal.suffix.substr(1, -1))
+	var split = cHitDiceTotal.text.split('d')
+	hdDict['total'] = int(split[0])
+	hdDict['type'] = int(split[1])
 	
 	var dsDict = {}
 	dsDict['num_success'] = int(cDSSuccess.value)
@@ -188,12 +219,26 @@ func _on_save_button_pressed():
 	physDict['initiative'] = cInitiative.value
 	physDict['speed'] = cSpeed.value
 	
+	var bsDict = {}
+	bsDict['race'] = str(cRace.text)
+	bsDict['background'] = str(cBackground.text)
+	bsDict['alignment'] = str(cAlignment.text)
+	
+	var moneyDict = {}
+	moneyDict['cp'] = int(cCP.value)
+	moneyDict['sp'] = int(cSP.value)
+	moneyDict['ep'] = int(cEP.value)
+	moneyDict['gp'] = int(cGP.value)
+	moneyDict['pp'] = int(cPP.value)
+	
 	Database.db.open_db()
 	Database.updateChar(charDict)
 	Database.updateHitPoints(hpDict)
 	Database.updateHitDice(hdDict)
 	Database.updateDeathSaves(dsDict)
 	Database.updatePhysicalStats(physDict)
+	Database.updateBackstory(bsDict)
+	Database.updateMoney(moneyDict)
 	
 	# Ability scores
 	for scoreName in cAS.keys():
@@ -215,7 +260,6 @@ func _on_save_button_pressed():
 	
 	Database.db.close_db()
 
-
 var delete_button_pressed = 0
 func _on_delete_button_pressed():
 	match delete_button_pressed:
@@ -229,15 +273,14 @@ func _on_delete_button_pressed():
 	
 	delete_button_pressed += 1
 
-
-func _on_class_item_selected(index):
+func _on_class_item_selected(_index):
 	# Calculate hit dice type by class
-	cHitDiceTotal.suffix = "d" + str(CLASS_HD.values()[index])
-
+	cHitDiceTotal.text = str(cLevel.value) + 'd' + str(CLASS_HD.values()[cClass.selected])
 
 func _on_level_value_changed(value):
 	# Calculate proficiency bonus according to level
 	cPB.value = floor((value - 1) / 4.0) + 2
+	cHitDiceTotal.text = str(cLevel.value) + 'd' + str(CLASS_HD.values()[cClass.selected])
 
 func calculate_modifier(scoreName, value):
 	var newMod = floor((value - 10.0) / 2.0)
@@ -249,18 +292,15 @@ func _on_str_score_value_changed(value):
 	for skillName in Database.ABILITY_SCORES['Strength']:
 		calculate_bonus(cSkills[skillName])
 
-
 func _on_dex_score_value_changed(value):
 	calculate_modifier('Dexterity', value)
 	for skillName in Database.ABILITY_SCORES['Dexterity']:
 		calculate_bonus(cSkills[skillName])
 
-
 func _on_con_score_value_changed(value):
 	calculate_modifier('Constitution', value)
 	for skillName in Database.ABILITY_SCORES['Constitution']:
 		calculate_bonus(cSkills[skillName])
-
 
 func _on_int_score_value_changed(value):
 	calculate_modifier('Intelligence', value)
@@ -272,12 +312,10 @@ func _on_wis_score_value_changed(value):
 	for skillName in Database.ABILITY_SCORES['Wisdom']:
 		calculate_bonus(cSkills[skillName])
 
-
 func _on_cha_score_value_changed(value):
 	calculate_modifier('Charisma', value)
 	for skillName in Database.ABILITY_SCORES['Charisma']:
 		calculate_bonus(cSkills[skillName])
-
 
 func calculate_bonus(skill, skillNode = null):
 	var skillName = skill['skill_name']
@@ -293,98 +331,81 @@ func calculate_bonus(skill, skillNode = null):
 	
 	skillNode.text = '%s (%s)' % [skillName, ('+' if newBonus >= 0 else '') + str(newBonus)]
 
-
 func _on_str_save_toggled(_toggled_on):
 	calculate_bonus(cSkills['StrSave'])
-
 
 func _on_athletics_toggled(_toggled_on):
 	calculate_bonus(cSkills['Athletics'])
 
-
 func _on_dex_save_toggled(_toggled_on):
 	calculate_bonus(cSkills['DexSave'])
-
 
 func _on_acrobatics_toggled(_toggled_on):
 	calculate_bonus(cSkills['Acrobatics'])
 
-
 func _on_sleight_of_hand_toggled(_toggled_on):
 	calculate_bonus(cSkills['Sleight of Hand'])
-
 
 func _on_stealth_toggled(_toggled_on):
 	calculate_bonus(cSkills['Stealth'])
 
-
 func _on_con_save_toggled(_toggled_on):
 	calculate_bonus(cSkills['ConSave'])
-
 
 func _on_int_save_toggled(_toggled_on):
 	calculate_bonus(cSkills['IntSave'])
 
-
 func _on_arcana_toggled(_toggled_on):
 	calculate_bonus(cSkills['Arcana'])
-
 
 func _on_history_toggled(_toggled_on):
 	calculate_bonus(cSkills['History'])
 
-
 func _on_investigation_toggled(_toggled_on):
 	calculate_bonus(cSkills['Investigation'])
-
 
 func _on_nature_toggled(_toggled_on):
 	calculate_bonus(cSkills['Nature'])
 
-
 func _on_religion_toggled(_toggled_on):
 	calculate_bonus(cSkills['Religion'])
-
 
 func _on_wis_save_toggled(_toggled_on):
 	calculate_bonus(cSkills['WisSave'])
 
-
 func _on_animal_handling_toggled(_toggled_on):
 	calculate_bonus(cSkills['Animal Handling'])
-
 
 func _on_insight_toggled(_toggled_on):
 	calculate_bonus(cSkills['Insight'])
 
-
 func _on_medicine_toggled(_toggled_on):
 	calculate_bonus(cSkills['Medicine'])
-
 
 func _on_perception_toggled(_toggled_on):
 	calculate_bonus(cSkills['Perception'])
 
-
 func _on_survival_toggled(_toggled_on):
 	calculate_bonus(cSkills['Survival'])
-
 
 func _on_cha_save_toggled(_toggled_on):
 	calculate_bonus(cSkills['ChaSave'])
 
-
 func _on_deception_toggled(_toggled_on):
 	calculate_bonus(cSkills['Deception'])
-
 
 func _on_intimidation_toggled(_toggled_on):
 	calculate_bonus(cSkills['Intimidation'])
 
-
 func _on_performance_toggled(_toggled_on):
 	calculate_bonus(cSkills['Performance'])
 
-
 func _on_persuasion_toggled(_toggled_on):
 	calculate_bonus(cSkills['Persuasion'])
+
+func refresh_weapons():
+	pass
+
+func _on_add_weapon_button_pressed():
+	
+	refresh_weapons()

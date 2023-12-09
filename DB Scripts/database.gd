@@ -279,6 +279,11 @@ func fetchWeapon(wepName, id = currentChar):
 	db.query("SELECT * FROM 'Weapon' WHERE owning_char = '" + str(id) + "' AND weapon_name = '" + wepName + "'")
 	
 	return db.query_result
+
+func fetchWeapons(id = currentChar):
+	db.query("SELECT * FROM 'Weapon' WHERE owning_char = '" + str(id) + "'")
+	
+	return db.query_result
 #=======================================================================================
 
 
@@ -371,6 +376,8 @@ func addSpellcasting(id = currentChar):
 
 
 func addWeapon(wepName, id = currentChar):
+	var wpns = fetchWeapons()[0]
+	
 	db.query("INSERT INTO Weapon(owning_char, weapon_name) VALUES('" + str(id) + "', '" + wepName + "')")
 	
 	return
