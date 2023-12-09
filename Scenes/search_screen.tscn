@@ -44,12 +44,13 @@ layout_mode = 2
 
 [node name="LogOutButton" type="Button" parent="UserContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 0
+theme_override_font_sizes/font_size = 18
 text = "Log Out"
 
 [node name="UserLabel" type="Label" parent="UserContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 25
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_me8ph")
 text = " Current User: "
 horizontal_alignment = 1

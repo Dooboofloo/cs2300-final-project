@@ -7,6 +7,15 @@ const NEW_CHARACTER = {
 	'notes': 'Notes go here...'
 }
 
+const ABILITY_SCORES = {
+	'Strength': ['Saving Throws', 'Athletics'],
+	'Dexterity': ['Saving Throws', 'Acrobatics', 'Sleight of Hand', 'Stealth'],
+	'Constitution': ['Saving Throws'],
+	'Intelligence': ['Saving Throws', 'Arcana', 'History', 'Investigation', 'Nature', 'Religion'],
+	'Wisdom': ['Saving Throws', 'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival'],
+	'Charisma': ['Saving Throws', 'Deception', 'Intimidation', 'Performance', 'Persuasion']
+}
+
 #global variables
 var db 
 #(!!!TODO!!!: path must be changed to 'user://database' for release, otherwise we can not write to the db with godot)
@@ -138,6 +147,22 @@ func newChar(): #Creates a new blank character linked with the active user. Used
 	#make new row in character manager and character table.
 	#CM will take user and Character will take the newly generated uuid.
 	#The other tables will have their rows added with the currentChar as the condition put in when they are needed.
+	
+	# Add ability scores and their skills
+	for AS in ABILITY_SCORES.keys():
+		addAbilityScore(AS)
+		for skill in ABILITY_SCORES[AS]:
+			addSkill(AS, skill)
+	
+	# Add everything else
+	addBackstory()
+	addDeathSaves()
+	addHitDice()
+	addHitPoints()
+	addMoney()
+	addPhysicalStats()
+	
+	
 	db.close_db()
 	
 	return #a value can be added here to be returned if needed.
@@ -222,6 +247,10 @@ func fetchSkill(govScore, skillName, id = currentChar):
 	
 	return db.query_result
 
+#func fetchSkill(skillName, id = currentChar):
+	#db.query("SELECT * FROM Skill WHERE char_id = '" + str(id) + "' AND skill_name = '" + skillName + "'")
+	#
+	#return db.query_result
 
 func fetchSpell(spellName, id = currentChar):
 	db.query("SELECT * FROM Spell WHERE char_id = '" + str(id) + "' AND name = '" + spellName + "'")

@@ -23,6 +23,20 @@ const CLASS_TO_ID = {
 @onready var cClass = $SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Class
 @onready var cNotes = $SideContainer/Panel/MarginContainer/VBoxContainer/Notes
 
+@onready var cHP = $CharContainer/TabBar/Stats/VBoxContainer/Health
+@onready var cMaxHP = $CharContainer/TabBar/Stats/VBoxContainer/Health/MaxHP
+@onready var cTempHP = $CharContainer/TabBar/Stats/VBoxContainer/Health/TempHP
+
+# NOTE: cHitDiceTotal's text should be NdK where N is the amount and K is the die type (both ints)
+@onready var cHitDice = $CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS/HitDice
+@onready var cHitDiceTotal = $CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS/HitDiceTotal
+@onready var cDSSuccess = $CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS/DSSuccess
+@onready var cDSFail = $CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS/DSFail
+
+@onready var cAC = $CharContainer/TabBar/Stats/VBoxContainer/PhysStats/AC
+@onready var cInitiative = $CharContainer/TabBar/Stats/VBoxContainer/PhysStats/Initiative
+@onready var cSpeed = $CharContainer/TabBar/Stats/VBoxContainer/PhysStats/Speed
+
 func _ready():
 	print("Loaded character: " + str(Database.currentChar))
 	load_char_data()

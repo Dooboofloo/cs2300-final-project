@@ -8,7 +8,7 @@ var sheetblurb = preload("res://Scenes/Instantiable/sheet_blurb.tscn")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Show user who they are
-	$UserContainer/HBoxContainer/UserLabel.text = "Current User: " + Database.activeUser + ' '
+	$UserContainer/HBoxContainer/UserLabel.text = " Current User: " + Database.activeUser + ' '
 	
 	#example of how to parse getCharacters()
 	var chars = Database.getCharacters()

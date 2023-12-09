@@ -15,6 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bi2ul")
+metadata/_edit_lock_ = true
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
@@ -24,18 +25,29 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_ytbjr")
+metadata/_edit_lock_ = true
 
-[node name="UserContainer" type="MarginContainer" parent="."]
-offset_right = 192.0
+[node name="BackContainer" type="MarginContainer" parent="."]
+offset_right = 409.0
 offset_bottom = 45.0
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 25
+theme_override_constants/margin_right = 50
+metadata/_edit_lock_ = true
 
-[node name="BackButton" type="Button" parent="UserContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="BackContainer"]
 layout_mode = 2
+
+[node name="BackButton" type="Button" parent="BackContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 0
 text = "Back"
+
+[node name="SaveButton" type="Button" parent="BackContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Save Character"
 
 [node name="CharContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -53,23 +65,133 @@ theme_override_constants/margin_bottom = 50
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 
-[node name="PanelContainer" type="PanelContainer" parent="CharContainer"]
+[node name="TabBar" type="TabContainer" parent="CharContainer"]
 layout_mode = 2
+tab_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="CharContainer/PanelContainer"]
+[node name="Stats" type="MarginContainer" parent="CharContainer/TabBar"]
 layout_mode = 2
 theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
+theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="ScrollContainer" type="ScrollContainer" parent="CharContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CharContainer/TabBar/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Health" type="HBoxContainer" parent="CharContainer/TabBar/Stats/VBoxContainer"]
 layout_mode = 2
 
-[node name="CharacterList" type="VBoxContainer" parent="CharContainer/PanelContainer/MarginContainer/ScrollContainer"]
+[node name="HealthLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/Health"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+text = "Hit Points: "
+
+[node name="Health" type="LineEdit" parent="CharContainer/TabBar/Stats/VBoxContainer/Health"]
+layout_mode = 2
+
+[node name="MaxHPLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/Health"]
+layout_mode = 2
+text = "HP Maximum: "
+
+[node name="MaxHP" type="LineEdit" parent="CharContainer/TabBar/Stats/VBoxContainer/Health"]
+layout_mode = 2
+
+[node name="TempHPLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/Health"]
+layout_mode = 2
+text = "Temporary HP: "
+
+[node name="TempHP" type="LineEdit" parent="CharContainer/TabBar/Stats/VBoxContainer/Health"]
+layout_mode = 2
+
+[node name="HitDiceDS" type="HBoxContainer" parent="CharContainer/TabBar/Stats/VBoxContainer"]
+layout_mode = 2
+
+[node name="HitDiceLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+text = "Hit Dice: "
+
+[node name="HitDice" type="LineEdit" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+
+[node name="HitDiceTotalLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+text = "Hit Dice Total: "
+
+[node name="HitDiceTotal" type="LineEdit" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+
+[node name="DeathSavesLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+text = "Death Saves: ("
+
+[node name="SuccessLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+text = "S: "
+
+[node name="DSSuccess" type="SpinBox" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+max_value = 3.0
+
+[node name="FailLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+text = "/ F:"
+
+[node name="DSFail" type="SpinBox" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+max_value = 3.0
+
+[node name="FailLabel2" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/HitDiceDS"]
+layout_mode = 2
+text = ")"
+
+[node name="PhysStats" type="HBoxContainer" parent="CharContainer/TabBar/Stats/VBoxContainer"]
+layout_mode = 2
+
+[node name="ACLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/PhysStats"]
+layout_mode = 2
+text = "Armor Class: "
+
+[node name="AC" type="LineEdit" parent="CharContainer/TabBar/Stats/VBoxContainer/PhysStats"]
+layout_mode = 2
+
+[node name="InitiativeLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/PhysStats"]
+layout_mode = 2
+text = "Initiative: "
+
+[node name="Initiative" type="LineEdit" parent="CharContainer/TabBar/Stats/VBoxContainer/PhysStats"]
+layout_mode = 2
+
+[node name="SpeedLabel" type="Label" parent="CharContainer/TabBar/Stats/VBoxContainer/PhysStats"]
+layout_mode = 2
+text = "Speed: "
+
+[node name="Speed" type="LineEdit" parent="CharContainer/TabBar/Stats/VBoxContainer/PhysStats"]
+layout_mode = 2
+
+[node name="Inventory" type="MarginContainer" parent="CharContainer/TabBar"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Spellcasting" type="MarginContainer" parent="CharContainer/TabBar"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Info" type="MarginContainer" parent="CharContainer/TabBar"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
 [node name="SideContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -82,6 +204,7 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 50
 metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [node name="Panel" type="Panel" parent="SideContainer"]
 layout_mode = 2
@@ -165,14 +288,10 @@ wrap_mode = 1
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="SaveButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "Save Character"
-
 [node name="DeleteButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 text = "Delete Character"
 
-[connection signal="pressed" from="UserContainer/BackButton" to="." method="_on_back_button_pressed"]
-[connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="BackContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="BackContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DeleteButton" to="." method="_on_delete_button_pressed"]
