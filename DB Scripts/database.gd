@@ -3,17 +3,17 @@ extends Node
 const NEW_CHARACTER = {
 	'name': "New Character",
 	'level': 1,
-	'class': 'Bard',
+	'class': 'Fighter',
 	'notes': 'Notes go here...'
 }
 
 const ABILITY_SCORES = {
-	'Strength': ['Saving Throws', 'Athletics'],
-	'Dexterity': ['Saving Throws', 'Acrobatics', 'Sleight of Hand', 'Stealth'],
-	'Constitution': ['Saving Throws'],
-	'Intelligence': ['Saving Throws', 'Arcana', 'History', 'Investigation', 'Nature', 'Religion'],
-	'Wisdom': ['Saving Throws', 'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival'],
-	'Charisma': ['Saving Throws', 'Deception', 'Intimidation', 'Performance', 'Persuasion']
+	'Strength': ['StrSave', 'Athletics'],
+	'Dexterity': ['DexSave', 'Acrobatics', 'Sleight of Hand', 'Stealth'],
+	'Constitution': ['ConSave'],
+	'Intelligence': ['IntSave', 'Arcana', 'History', 'Investigation', 'Nature', 'Religion'],
+	'Wisdom': ['WisSave', 'Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival'],
+	'Charisma': ['ChaSave', 'Deception', 'Intimidation', 'Performance', 'Persuasion']
 }
 
 #global variables
@@ -242,15 +242,20 @@ func fetchPhysicalStats(id = currentChar):
 	return db.query_result
 
 
-func fetchSkill(govScore, skillName, id = currentChar):
-	db.query("SELECT * FROM Skill WHERE char_id = '" + str(id) + "' AND governing_score = '" + govScore + "' AND skill_name = '" + skillName + "'")
+#func fetchSkill(govScore, skillName, id = currentChar):
+	#db.query("SELECT * FROM Skill WHERE char_id = '" + str(id) + "' AND governing_score = '" + govScore + "' AND skill_name = '" + skillName + "'")
+	#
+	#return db.query_result
+
+func fetchSkill(skillName, id = currentChar):
+	db.query("SELECT * FROM Skill WHERE char_id = '" + str(id) + "' AND skill_name = '" + skillName + "'")
 	
 	return db.query_result
 
-#func fetchSkill(skillName, id = currentChar):
-	#db.query("SELECT * FROM Skill WHERE char_id = '" + str(id) + "' AND skill_name = '" + skillName + "'")
-	#
-	#return db.query_result
+func fetchSkills(id = currentChar):
+	db.query("SELECT * FROM Skill WHERE char_id = '" + str(id) + "'")
+	
+	return db.query_result
 
 func fetchSpell(spellName, id = currentChar):
 	db.query("SELECT * FROM Spell WHERE char_id = '" + str(id) + "' AND name = '" + spellName + "'")
@@ -457,9 +462,9 @@ func updatePhysicalStats(dict, id = currentChar):
 	return
 
 
-func updateSkill(dict, govScore, skillName, id = currentChar):
+func updateSkill(dict, skillName, id = currentChar):
 	var tableName = "Skill"
-	var condition = "char_id = '" + str(id) + "' AND governing_score = '" + govScore + "' AND skill_name = '" + skillName + "'"
+	var condition = "char_id = '" + str(id) + "' AND skill_name = '" + skillName + "'"
 	db.update_rows(tableName, condition, dict)
 	
 	return

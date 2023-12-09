@@ -97,11 +97,8 @@ metadata/_edit_lock_ = true
 [node name="TabBar" type="TabContainer" parent="CharContainer"]
 layout_mode = 2
 tab_alignment = 1
-current_tab = 1
-metadata/_edit_lock_ = true
 
 [node name="Info" type="MarginContainer" parent="CharContainer/TabBar"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 15
@@ -276,6 +273,7 @@ theme_override_constants/separation = 10
 theme_override_styles/separator = SubResource("StyleBoxLine_phaht")
 
 [node name="Stats" type="MarginContainer" parent="CharContainer/TabBar"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
@@ -359,15 +357,10 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Acrobatics (%s)"
 
-[node name="Sleight of Hand" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Dex/VBoxContainer2"]
+[node name="SleightOfHand" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Dex/VBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Sleight Of Hand (%s)"
-
-[node name="Stealth" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Dex/VBoxContainer2"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 10
-text = "Stealth (%s)"
 
 [node name="ConLabel" type="Label" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer"]
 layout_mode = 2
@@ -480,12 +473,12 @@ alignment = 1
 [node name="VBoxContainer2" type="VBoxContainer" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis"]
 layout_mode = 2
 
-[node name="WisSave" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2"]
+[node name="DexSave" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Saving Throws (%s)"
 
-[node name="Animal Handling" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2"]
+[node name="AnimalHandling" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Animal Handling (%s)"
@@ -534,7 +527,7 @@ alignment = 1
 [node name="VBoxContainer2" type="VBoxContainer" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha"]
 layout_mode = 2
 
-[node name="ChaSave" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2"]
+[node name="ConSave" type="CheckBox" parent="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Saving Throws (%s)"
@@ -676,36 +669,6 @@ text = "Delete Character"
 
 [connection signal="pressed" from="BackContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
 [connection signal="pressed" from="BackContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
-[connection signal="value_changed" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Str/AspectRatioContainer/StrScore" to="." method="_on_str_score_value_changed"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Str/VBoxContainer2/StrSave" to="." method="_on_str_save_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Str/VBoxContainer2/Athletics" to="." method="_on_athletics_toggled"]
-[connection signal="value_changed" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Dex/AspectRatioContainer/DexScore" to="." method="_on_dex_score_value_changed"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Dex/VBoxContainer2/DexSave" to="." method="_on_dex_save_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Dex/VBoxContainer2/Acrobatics" to="." method="_on_acrobatics_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Dex/VBoxContainer2/Sleight of Hand" to="." method="_on_sleight_of_hand_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Dex/VBoxContainer2/Stealth" to="." method="_on_stealth_toggled"]
-[connection signal="value_changed" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Con/AspectRatioContainer/ConScore" to="." method="_on_con_score_value_changed"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer/Con/VBoxContainer2/ConSave" to="." method="_on_con_save_toggled"]
-[connection signal="value_changed" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Int/AspectRatioContainer/IntScore" to="." method="_on_int_score_value_changed"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Int/VBoxContainer2/IntSave" to="." method="_on_int_save_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Int/VBoxContainer2/Arcana" to="." method="_on_arcana_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Int/VBoxContainer2/History" to="." method="_on_history_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Int/VBoxContainer2/Investigation" to="." method="_on_investigation_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Int/VBoxContainer2/Nature" to="." method="_on_nature_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Int/VBoxContainer2/Religion" to="." method="_on_religion_toggled"]
-[connection signal="value_changed" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/AspectRatioContainer/WisScore" to="." method="_on_wis_score_value_changed"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2/WisSave" to="." method="_on_wis_save_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2/Animal Handling" to="." method="_on_animal_handling_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2/Insight" to="." method="_on_insight_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2/Medicine" to="." method="_on_medicine_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2/Perception" to="." method="_on_perception_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Wis/VBoxContainer2/Survival" to="." method="_on_survival_toggled"]
-[connection signal="value_changed" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/AspectRatioContainer/ChaScore" to="." method="_on_cha_score_value_changed"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/ChaSave" to="." method="_on_cha_save_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/Deception" to="." method="_on_deception_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/Intimidation" to="." method="_on_intimidation_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/Performance" to="." method="_on_performance_toggled"]
-[connection signal="toggled" from="CharContainer/TabBar/Stats/AbilityScores/VBoxContainer2/Cha/VBoxContainer2/Persuasion" to="." method="_on_persuasion_toggled"]
 [connection signal="value_changed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Level" to="." method="_on_level_value_changed"]
 [connection signal="item_selected" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Class" to="." method="_on_class_item_selected"]
 [connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DeleteButton" to="." method="_on_delete_button_pressed"]

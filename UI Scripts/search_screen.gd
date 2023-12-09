@@ -28,9 +28,9 @@ func refresh_list(sort_mode = 0, search = ""):
 	var chars = Database.getCharacters(sort_mode, search)
 	var data = chars[1]
 	
-	for char in data:
+	for chr in data:
 		var blurb = sheetblurb.instantiate()
-		blurb.charDetails = char
+		blurb.charDetails = chr
 		CharList.add_child(blurb)
 
 
