@@ -36,6 +36,8 @@ const CLASS_HD = {
 	'Wizard': 6
 }
 
+const SC_ABILITIES = ['Intelligence', 'Wisdom', 'Charisma']
+
 @onready var cName = $SideContainer/Panel/MarginContainer/VBoxContainer/Name
 @onready var cLevel = $SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Level
 @onready var cClass = $SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Class
@@ -95,9 +97,14 @@ var cSkills = {}
 
 @onready var weaponsNode = $CharContainer/TabBar/Inventory/HBoxContainer/VBoxContainer2/WeaponsScrollBox/Weapons
 
+@onready var cSpellAbility = $CharContainer/TabBar/Spellcasting/VBoxContainer/Spellcasting/SpellcastingAbility
+@onready var cSpellDC = $CharContainer/TabBar/Spellcasting/VBoxContainer/Spellcasting/SaveDCPanel/SaveDC
+@onready var cSpellAttack = $CharContainer/TabBar/Spellcasting/VBoxContainer/Spellcasting/AtkBonusPanel/AtkBonus
+
 func _ready():
 	print("Loaded character: " + str(Database.currentChar))
 	load_char_data()
+	refresh_weapons()
 
 func _input(_event):
 	if Input.is_action_just_pressed("save"):
@@ -123,6 +130,11 @@ func load_char_data():
 	var HitPoints = Database.fetchHitPoints()[0]
 	var Money = Database.fetchMoney()[0]
 	var PhysicalStats = Database.fetchPhysicalStats()[0]
+	
+	var Spellcasting = Database.fetchSpellcasting()[0]
+	print(Spellcasting)
+	if Spellcasting['ability_score'] != null:
+		refresh_spell_stuff(Spellcasting['ability_score'])
 	
 	Database.db.close_db()
 	
@@ -182,6 +194,7 @@ func load_char_data():
 	cEP.value = int(Money['ep'])
 	cGP.value = int(Money['gp'])
 	cPP.value = int(Money['pp'])
+	
 
 func _on_back_button_pressed():
 	Database.currentChar = 0 # Reset database current char
@@ -231,6 +244,11 @@ func _on_save_button_pressed():
 	moneyDict['gp'] = int(cGP.value)
 	moneyDict['pp'] = int(cPP.value)
 	
+	var scDict = {}
+	scDict['ability_score'] = SC_ABILITIES[cSpellAbility.selected]
+	scDict['save_dc'] = int(cSpellDC.text)
+	scDict['atk_bonus'] = int(cSpellAttack.text.substr(1, -1))
+	
 	Database.db.open_db()
 	Database.updateChar(charDict)
 	Database.updateHitPoints(hpDict)
@@ -239,6 +257,7 @@ func _on_save_button_pressed():
 	Database.updatePhysicalStats(physDict)
 	Database.updateBackstory(bsDict)
 	Database.updateMoney(moneyDict)
+	Database.updateSpellcasting(scDict)
 	
 	# Ability scores
 	for scoreName in cAS.keys():
@@ -257,6 +276,9 @@ func _on_save_button_pressed():
 		
 		Database.updateSkill(skillDict, skill['skill_name'])
 	
+	for w in weaponsNode.get_children():
+		var wpnDict = w.get_values()
+		Database.updateWeapon(wpnDict, wpnDict['weapon_id'])
 	
 	Database.db.close_db()
 
@@ -306,16 +328,22 @@ func _on_int_score_value_changed(value):
 	calculate_modifier('Intelligence', value)
 	for skillName in Database.ABILITY_SCORES['Intelligence']:
 		calculate_bonus(cSkills[skillName])
+	if cSpellAbility.text == 'INT':
+		refresh_spell_stuff('Intelligence')
 
 func _on_wis_score_value_changed(value):
 	calculate_modifier('Wisdom', value)
 	for skillName in Database.ABILITY_SCORES['Wisdom']:
 		calculate_bonus(cSkills[skillName])
+	if cSpellAbility.text == 'WIS':
+		refresh_spell_stuff('Wisdom')
 
 func _on_cha_score_value_changed(value):
 	calculate_modifier('Charisma', value)
 	for skillName in Database.ABILITY_SCORES['Charisma']:
 		calculate_bonus(cSkills[skillName])
+	if cSpellAbility.text == 'CHA':
+		refresh_spell_stuff('Charisma')
 
 func calculate_bonus(skill, skillNode = null):
 	var skillName = skill['skill_name']
@@ -419,3 +447,13 @@ func _on_add_weapon_button_pressed():
 	Database.addWeapon()
 	Database.db.close_db()
 	refresh_weapons()
+
+func refresh_spell_stuff(ability):
+	var atk = cASMods[ability] + cPB.value
+	var dc = 8 + atk
+	cSpellAttack.text = ('+' if atk >= 0 else '') + str(atk)
+	cSpellDC.text = str(dc)
+
+func _on_spellcasting_ability_item_selected(index):
+	var ability = SC_ABILITIES[index]
+	refresh_spell_stuff(ability)

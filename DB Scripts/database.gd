@@ -69,9 +69,6 @@ func register(user: String, passW: String): #Runs if the user hits the register 
 		db.close_db()
 		return true
 
-#We could add a function to change password. Doing so would just need user and then an UPDATE query.
-#============================================================
-
 
 
 #Main Screen Functions
@@ -161,7 +158,9 @@ func newChar(): #Creates a new blank character linked with the active user. Used
 	addHitPoints()
 	addMoney()
 	addPhysicalStats()
-	
+	addSpellcasting()
+	for i in range(1, 10):
+		addSpellSlot(i)
 	
 	db.close_db()
 	
@@ -499,9 +498,9 @@ func updateSpellcasting(dict, id = currentChar):
 	return
 
 
-func updateWeapon(dict, wepName, id = currentChar):
+func updateWeapon(dict, wepId, id = currentChar):
 	var tableName = "Weapon"
-	var condition = "char_id = '" + str(id) + "' AND weapon_name = '" + wepName + "'"
+	var condition = "owning_char = '" + str(id) + "' AND weapon_id = '" + str(wepId) + "'"
 	db.update_rows(tableName, condition, dict)
 	
 	return
