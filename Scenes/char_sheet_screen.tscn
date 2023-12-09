@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqcgchlnvf76e"]
+[gd_scene load_steps=4 format=3 uid="uid://dqcgchlnvf76e"]
 
 [ext_resource type="Script" path="res://UI Scripts/char_sheet_screen.gd" id="1_bi2ul"]
+[ext_resource type="Texture2D" uid="uid://b0r8mynjuiqj5" path="res://Images/other_bg.jpg" id="2_ytbjr"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_2juy7"]
+color = Color(0.592157, 0.592157, 0.592157, 1)
+thickness = 2
 
 [node name="CharSheetScreen" type="Control"]
 layout_mode = 3
@@ -11,10 +16,162 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bi2ul")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 363.0
-offset_top = 101.0
-offset_right = 643.0
-offset_bottom = 231.0
-text = "a"
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ytbjr")
+
+[node name="UserContainer" type="MarginContainer" parent="."]
+offset_right = 192.0
+offset_bottom = 45.0
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 25
+
+[node name="BackButton" type="Button" parent="UserContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 0
+text = "Back"
+
+[node name="CharContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.333333
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 50
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="CharContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CharContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CharContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="CharacterList" type="VBoxContainer" parent="CharContainer/PanelContainer/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SideContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.333333
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 50
+metadata/_edit_use_anchors_ = true
+
+[node name="Panel" type="Panel" parent="SideContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="SideContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SideContainer/Panel/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Name" type="LineEdit" parent="SideContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "Character Name"
+
+[node name="HSeparator" type="HSeparator" parent="SideContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_2juy7")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SideContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Level" type="SpinBox" parent="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 20.0
+value = 1.0
+
+[node name="Class" type="OptionButton" parent="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+item_count = 13
+allow_reselect = true
+popup/item_0/text = "Artificer"
+popup/item_0/id = 0
+popup/item_1/text = "Barbarian"
+popup/item_1/id = 1
+popup/item_2/text = "Bard"
+popup/item_2/id = 2
+popup/item_3/text = "Cleric"
+popup/item_3/id = 3
+popup/item_4/text = "Druid"
+popup/item_4/id = 4
+popup/item_5/text = "Fighter"
+popup/item_5/id = 5
+popup/item_6/text = "Monk"
+popup/item_6/id = 6
+popup/item_7/text = "Paladin"
+popup/item_7/id = 7
+popup/item_8/text = "Ranger"
+popup/item_8/id = 8
+popup/item_9/text = "Rogue"
+popup/item_9/id = 9
+popup/item_10/text = "Sorcerer"
+popup/item_10/id = 10
+popup/item_11/text = "Warlock"
+popup/item_11/id = 11
+popup/item_12/text = "Wizard"
+popup/item_12/id = 12
+
+[node name="Notes" type="TextEdit" parent="SideContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Notes go here..."
+wrap_mode = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="SideContainer/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SaveButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Save Character"
+
+[node name="DeleteButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Delete Character"
+
+[connection signal="pressed" from="UserContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/SaveButton" to="." method="_on_save_button_pressed"]

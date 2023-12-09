@@ -77,14 +77,14 @@ func getCharacters(sort = 0, search = ""):#Pulls characters to be displayed base
 	
 	match sort:
 		0: #Default no sort
-			db.query("SELECT C.name, C.level, C.class, C.notes FROM Character C WHERE EXISTS
+			db.query("SELECT C.name, C.level, C.class, C.notes, C.uuid FROM Character C WHERE EXISTS
 					(SELECT * FROM 'Character Manager' M WHERE '" + activeUser + "' = M.user AND M.char_id = C.uuid)")
 			db.close_db()
 			
 			return [resultAmount, db.query_result]
 		
 		1: #Sort by level
-			db.query("SELECT C.name, C.level, C.class, C.notes FROM Character C WHERE EXISTS
+			db.query("SELECT C.name, C.level, C.class, C.notes, C.uuid FROM Character C WHERE EXISTS
 					(SELECT * FROM 'Character Manager' M WHERE '" + activeUser + "' = M.user AND M.char_id = C.uuid )
 					ORDER BY C.level DESC")
 			db.close_db()
@@ -92,7 +92,7 @@ func getCharacters(sort = 0, search = ""):#Pulls characters to be displayed base
 			return [resultAmount, db.query_result]
 			
 		2: #Sort by name
-			db.query("SELECT C.name, C.level, C.class, C.notes FROM Character C WHERE EXISTS
+			db.query("SELECT C.name, C.level, C.class, C.notes, C.uuid FROM Character C WHERE EXISTS
 					(SELECT * FROM 'Character Manager' M WHERE '" + activeUser + "' = M.user AND M.char_id = C.uuid )
 					ORDER BY C.name")
 			db.close_db()
@@ -100,7 +100,7 @@ func getCharacters(sort = 0, search = ""):#Pulls characters to be displayed base
 			return [resultAmount, db.query_result]
 			
 		3: #Sort by class
-			db.query("SELECT C.name, C.level, C.class, C.notes FROM Character C WHERE EXISTS
+			db.query("SELECT C.name, C.level, C.class, C.notes, C.uuid FROM Character C WHERE EXISTS
 					(SELECT * FROM 'Character Manager' M WHERE '" + activeUser + "' = M.user AND M.char_id = C.uuid )
 					ORDER BY C.class")
 			db.close_db()
@@ -112,7 +112,7 @@ func getCharacters(sort = 0, search = ""):#Pulls characters to be displayed base
 					(SELECT * FROM 'Character Manager' M WHERE '" + activeUser + "' = M.user AND M.char_id = C.uuid AND C.notes LIKE '%" + search + "%')")
 			resultAmount = db.query_result[0]["COUNT(C.uuid)"]
 			
-			db.query("SELECT C.name, C.level, C.class, C.notes FROM Character C WHERE EXISTS
+			db.query("SELECT C.name, C.level, C.class, C.notes, C.uuid FROM Character C WHERE EXISTS
 					(SELECT * FROM 'Character Manager' M WHERE '" + activeUser + "' = M.user AND M.char_id = C.uuid AND C.notes LIKE '%" + search + "%')")
 			db.close_db()
 			

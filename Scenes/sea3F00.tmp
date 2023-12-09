@@ -24,6 +24,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -56.0
+offset_right = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_1h1wo")
@@ -52,22 +54,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_me8ph")
 text = " Current User: "
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="ReverseSearchButtonContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -61.0
-offset_bottom = 45.0
-grow_horizontal = 0
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 25
-
-[node name="ReverseSearchButton" type="Button" parent="ReverseSearchButtonContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-text = "↕"
 
 [node name="CharListContainer" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -104,8 +90,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SideContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = -1
+layout_mode = 0
 anchor_right = 0.333333
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -114,7 +99,6 @@ theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 50
 metadata/_edit_use_anchors_ = true
-metadata/_edit_lock_ = true
 
 [node name="Panel" type="Panel" parent="SideContainer"]
 layout_mode = 2
@@ -126,44 +110,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="SideContainer/Panel/MarginContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="SortDefaultButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Sort by Oldest (Default)"
-
-[node name="SortLevelButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Sort by Level"
-
-[node name="SortNameButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Sort by Name"
-
-[node name="SortClassButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Sort by Class"
-
-[node name="SortKeywordButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer2"]
-layout_mode = 2
-text = "Sort by Keyword"
-
-[node name="KeywordLineEdit" type="LineEdit" parent="SideContainer/Panel/MarginContainer/VBoxContainer2"]
-layout_mode = 2
-placeholder_text = "Keyword"
-alignment = 1
-
 [node name="VBoxContainer" type="VBoxContainer" parent="SideContainer/Panel/MarginContainer"]
 layout_mode = 2
-mouse_filter = 2
 alignment = 2
 
 [node name="NewCharacterButton" type="Button" parent="SideContainer/Panel/MarginContainer/VBoxContainer"]
@@ -171,7 +124,6 @@ layout_mode = 2
 text = "New Character"
 
 [node name="Label" type="Label" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 78.0
 offset_top = 256.0
@@ -180,10 +132,4 @@ offset_bottom = 279.0
 text = "TODO: SORT BUTTONS HERE"
 
 [connection signal="pressed" from="UserContainer/HBoxContainer/LogOutButton" to="." method="_on_log_out_button_pressed"]
-[connection signal="pressed" from="ReverseSearchButtonContainer/ReverseSearchButton" to="." method="_on_reverse_search_button_pressed"]
-[connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer2/SortDefaultButton" to="." method="_on_sort_default_button_pressed"]
-[connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer2/SortLevelButton" to="." method="_on_sort_level_button_pressed"]
-[connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer2/SortNameButton" to="." method="_on_sort_name_button_pressed"]
-[connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer2/SortClassButton" to="." method="_on_sort_class_button_pressed"]
-[connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer2/SortKeywordButton" to="." method="_on_sort_keyword_button_pressed"]
 [connection signal="pressed" from="SideContainer/Panel/MarginContainer/VBoxContainer/NewCharacterButton" to="." method="_on_new_character_button_pressed"]

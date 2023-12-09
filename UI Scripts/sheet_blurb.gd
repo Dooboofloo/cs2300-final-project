@@ -2,8 +2,6 @@ extends PanelContainer
 
 var charDetails
 
-var charId: int
-
 func _ready():
 	# Set name text
 	$MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CharName.text = str(charDetails['name'])
@@ -15,5 +13,6 @@ func _ready():
 	$MarginContainer/HBoxContainer/VBoxContainer/Notes.text = str(charDetails['notes'])
 
 func _on_view_button_pressed():
-	print(charId)
-	# Switch scene to character sheet view with Database.currentChar = charId
+	print('Switching to character ID: ' + str(charDetails['uuid']))
+	Database.currentChar = charDetails['uuid'] # set DB manager's currentChar var
+	get_tree().change_scene_to_file('res://Scenes/char_sheet_screen.tscn')
