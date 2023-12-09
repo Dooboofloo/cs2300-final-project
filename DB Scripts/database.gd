@@ -18,8 +18,7 @@ const ABILITY_SCORES = {
 
 #global variables
 var db 
-#(!!!TODO!!!: path must be changed to 'user://database' for release, otherwise we can not write to the db with godot)
-var db_name = "res://DB Scripts/database"	#path to db 
+var db_name = "user://database"	#path to db 
 var activeUser = "" #Stores active user for sql queries
 var currentChar = 0 #Stores current character uuid
 
@@ -27,8 +26,14 @@ var currentChar = 0 #Stores current character uuid
 func _ready():
 	db = SQLite.new()	#This creates the database
 	db.path = db_name	#This provides the path to the database
-
-
+	
+	#if not (FileAccess.file_exists(db_name)):
+		#generate_database()
+#
+#func generate_database():
+	#db.open_db()
+	#
+	#db.close_db()
 
 
 
