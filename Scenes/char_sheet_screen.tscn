@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dqcgchlnvf76e"]
+[gd_scene load_steps=19 format=3 uid="uid://dqcgchlnvf76e"]
 
 [ext_resource type="Script" path="res://UI Scripts/char_sheet_screen.gd" id="1_bi2ul"]
 [ext_resource type="Texture2D" uid="uid://b0r8mynjuiqj5" path="res://Images/other_bg.jpg" id="2_ytbjr"]
@@ -21,8 +21,6 @@ vertical = true
 [sub_resource type="ImageTexture" id="ImageTexture_qx87e"]
 
 [sub_resource type="ImageTexture" id="ImageTexture_hfyoh"]
-
-[sub_resource type="ImageTexture" id="ImageTexture_d6tms"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_phaht"]
 color = Color(1, 1, 1, 1)
@@ -310,14 +308,22 @@ size_flags_horizontal = 8
 text = "PB:"
 horizontal_alignment = 2
 
-[node name="PB" type="SpinBox" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
+[node name="PBPanel" type="Panel" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats"]
 layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PB" type="Label" parent="CharContainer/TabBar/Info/VBoxContainer/PhysStats/PBPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 6
-theme_override_icons/updown = SubResource("ImageTexture_d6tms")
-min_value = 2.0
-max_value = 6.0
-value = 2.0
-alignment = 1
+text = "+0"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="HSeparator" type="HSeparator" parent="CharContainer/TabBar/Info/VBoxContainer"]
 layout_mode = 2
@@ -874,6 +880,7 @@ horizontal_alignment = 1
 
 [node name="SpellSlots1" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots1"]
 layout_mode = 2
@@ -902,6 +909,7 @@ text = ")
 
 [node name="SpellSlots2" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots2"]
 layout_mode = 2
@@ -930,6 +938,7 @@ text = ")
 
 [node name="SpellSlots3" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots3"]
 layout_mode = 2
@@ -958,6 +967,7 @@ text = ")
 
 [node name="SpellSlots4" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots4"]
 layout_mode = 2
@@ -986,6 +996,7 @@ text = ")
 
 [node name="SpellSlots5" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots5"]
 layout_mode = 2
@@ -1014,6 +1025,7 @@ text = ")
 
 [node name="SpellSlots6" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots6"]
 layout_mode = 2
@@ -1042,6 +1054,7 @@ text = ")
 
 [node name="SpellSlots7" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots7"]
 layout_mode = 2
@@ -1070,6 +1083,7 @@ text = ")
 
 [node name="SpellSlots8" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots8"]
 layout_mode = 2
@@ -1098,6 +1112,7 @@ text = ")
 
 [node name="SpellSlots9" type="HBoxContainer" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots"]
 layout_mode = 2
+alignment = 2
 
 [node name="Label" type="Label" parent="CharContainer/TabBar/Spellcasting/VBoxContainer/HBoxContainer/SpellSlots/SpellSlots9"]
 layout_mode = 2

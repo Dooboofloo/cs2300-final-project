@@ -262,8 +262,7 @@ func fetchSpell(spellName, id = currentChar):
 	return db.query_result
 
 func fetchSpells(id = currentChar):
-	# TODO: Sort by lvl
-	db.query("SELECT * FROM Spell WHERE char_id = '" + str(id) + "'")
+	db.query("SELECT * FROM Spell WHERE char_id = '" + str(id) + "' ORDER BY level")
 	
 	return db.query_result
 
@@ -538,9 +537,9 @@ func deleteSkill(id, govScore, skillName):
 	return
 
 
-func deleteSpell(id, spellName):
+func deleteSpell(id, spellId):
 	db.query("PRAGMA foreign_keys=ON")
-	db.query("DELETE FROM 'Spell' WHERE char_id = '" + str(id) + "' AND name = '" + spellName + "'") 
+	db.query("DELETE FROM 'Spell' WHERE char_id = '" + str(id) + "' AND spell_id = '" + str(spellId) + "'") 
 	
 	return
 

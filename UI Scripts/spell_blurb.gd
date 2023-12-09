@@ -8,7 +8,7 @@ func _ready():
 
 func _on_delete_button_pressed():
 	Database.db.open_db()
-	Database.deleteSpell(spellDetails['char_id'], spellDetails['name'])
+	Database.deleteSpell(spellDetails['char_id'], spellDetails['spell_id'])
 	Database.db.close_db()
 	queue_free()
 

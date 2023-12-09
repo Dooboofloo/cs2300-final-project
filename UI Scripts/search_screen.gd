@@ -25,6 +25,7 @@ func refresh_list(sort_mode = 0, search = ""):
 		CharList.remove_child(n)
 	
 	# Fill it with newly sorted / gathered entries
+	search = search.replace("'", '')
 	var chars = Database.getCharacters(sort_mode, search)
 	var data = chars[1]
 	

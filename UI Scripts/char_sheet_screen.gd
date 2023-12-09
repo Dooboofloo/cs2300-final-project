@@ -43,7 +43,7 @@ const SC_ABILITIES = ['Intelligence', 'Wisdom', 'Charisma']
 @onready var cLevel = $SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Level
 @onready var cClass = $SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer/Class
 @onready var cNotes = $SideContainer/Panel/MarginContainer/VBoxContainer/Notes
-@onready var cPB = $CharContainer/TabBar/Info/VBoxContainer/PhysStats/PB
+@onready var cPB = $CharContainer/TabBar/Info/VBoxContainer/PhysStats/PBPanel/PB
 
 @onready var cHP = $CharContainer/TabBar/Info/VBoxContainer/Health/Health
 @onready var cMaxHP = $CharContainer/TabBar/Info/VBoxContainer/Health/MaxHP
@@ -135,9 +135,6 @@ func load_char_data():
 	var PhysicalStats = Database.fetchPhysicalStats()[0]
 	
 	var Spellcasting = Database.fetchSpellcasting()[0]
-	print(Spellcasting)
-	if Spellcasting['ability_score'] != null:
-		refresh_spell_stuff(Spellcasting['ability_score'])
 	
 	# Spell Slots
 	for i in range (1, 10):
@@ -159,7 +156,7 @@ func load_char_data():
 	cName.text = Char['name']
 	cLevel.value = int(Char['level'])
 	cClass.selected = int(CLASS_TO_ID[str(Char['class'])])
-	cPB.value = int(Char['prof_bonus'])
+	cPB.text = '+' + str(Char['prof_bonus'])
 	cEquipment.text = str(Char['equipment'])
 	cNotes.text = str(Char['notes'])
 	
@@ -203,6 +200,9 @@ func load_char_data():
 	cEP.value = int(Money['ep'])
 	cGP.value = int(Money['gp'])
 	cPP.value = int(Money['pp'])
+	
+	if Spellcasting['ability_score'] != null:
+		refresh_spell_stuff(Spellcasting['ability_score'])
 
 func _on_back_button_pressed():
 	Database.currentChar = 0 # Reset database current char
@@ -216,7 +216,7 @@ func _on_save_button_pressed():
 	charDict['name'] = cName.text
 	charDict['level'] = cLevel.value
 	charDict['class'] = CLASS_TO_ID.keys()[cClass.selected]
-	charDict['prof_bonus'] = cPB.value
+	charDict['prof_bonus'] = int(cPB.text)
 	charDict['equipment'] = cEquipment.text
 	charDict['notes'] = cNotes.text
 	
@@ -265,6 +265,7 @@ func _on_save_button_pressed():
 	Database.updatePhysicalStats(physDict)
 	Database.updateBackstory(bsDict)
 	Database.updateMoney(moneyDict)
+	print(scDict)
 	Database.updateSpellcasting(scDict)
 	
 	# Ability scores
@@ -322,7 +323,7 @@ func _on_class_item_selected(_index):
 
 func _on_level_value_changed(value):
 	# Calculate proficiency bonus according to level
-	cPB.value = floor((value - 1) / 4.0) + 2
+	cPB.text = '+' + str(floor((value - 1) / 4.0) + 2)
 	cHitDiceTotal.text = str(cLevel.value) + 'd' + str(CLASS_HD.values()[cClass.selected])
 
 func calculate_modifier(scoreName, value):
@@ -373,7 +374,7 @@ func calculate_bonus(skill, skillNode = null):
 	if skillNode == null:
 		skillNode = find_child(skillName)
 	
-	var newBonus = cASMods[govScore] + (int(skillNode.button_pressed) * cPB.value)
+	var newBonus = cASMods[govScore] + (int(skillNode.button_pressed) * int(cPB.text))
 	
 	if skillName in ['StrSave', 'DexSave', 'ConSave', 'IntSave', 'WisSave', 'ChaSave']:
 		skillName = 'Saving Throws'
@@ -453,10 +454,13 @@ func _on_persuasion_toggled(_toggled_on):
 	calculate_bonus(cSkills['Persuasion'])
 
 func refresh_weapons():
-	for n in weaponsNode.get_children():
-		weaponsNode.remove_child(n)
-	
 	Database.db.open_db()
+	
+	for w in weaponsNode.get_children():
+		var wpnDict = w.get_values()
+		Database.updateWeapon(wpnDict, wpnDict['weapon_id'])
+		weaponsNode.remove_child(w)
+	
 	for w in Database.fetchWeapons():
 		var wpnBlrb = weaponBlurb.instantiate()
 		wpnBlrb.weaponDetails = w
@@ -470,8 +474,9 @@ func _on_add_weapon_button_pressed():
 	refresh_weapons()
 
 func refresh_spell_stuff(ability):
-	var atk = cASMods[ability] + cPB.value
+	var atk = cASMods[ability] + int(cPB.text)
 	var dc = 8 + atk
+	cSpellAbility.selected = SC_ABILITIES.find(ability)
 	cSpellAttack.text = ('+' if atk >= 0 else '') + str(atk)
 	cSpellDC.text = str(dc)
 
@@ -480,10 +485,12 @@ func _on_spellcasting_ability_item_selected(index):
 	refresh_spell_stuff(ability)
 
 func refresh_spell_list():
-	for n in spellsNode.get_children():
-		spellsNode.remove_child(n)
-	
 	Database.db.open_db()
+	for s in spellsNode.get_children():
+		var splDict = s.get_values()
+		Database.updateSpell(splDict, splDict['spell_id'])
+		spellsNode.remove_child(s)
+	
 	for s in Database.fetchSpells():
 		var splBlrb = spellBlurb.instantiate()
 		splBlrb.spellDetails = s
