@@ -275,8 +275,8 @@ func fetchSpellcasting(id = currentChar):
 	return db.query_result
 
 
-func fetchWeapon(wepName, id = currentChar):
-	db.query("SELECT * FROM 'Weapon' WHERE owning_char = '" + str(id) + "' AND weapon_name = '" + wepName + "'")
+func fetchWeapon(wepId, id = currentChar):
+	db.query("SELECT * FROM 'Weapon' WHERE owning_char = '" + str(id) + "' AND weapon_id = '" + wepId + "'")
 	
 	return db.query_result
 
@@ -375,10 +375,8 @@ func addSpellcasting(id = currentChar):
 	return
 
 
-func addWeapon(wepName, id = currentChar):
-	var wpns = fetchWeapons()[0]
-	
-	db.query("INSERT INTO Weapon(owning_char, weapon_name) VALUES('" + str(id) + "', '" + wepName + "')")
+func addWeapon(id = currentChar):
+	db.query("INSERT INTO Weapon(owning_char) VALUES('" + str(id) + "')")
 	
 	return
 #===================================================================================================
@@ -559,9 +557,9 @@ func deleteSpellcasting(id):
 	return
 
 
-func deleteWeapon(id, wepName):
+func deleteWeapon(id, wepId):
 	db.query("PRAGMA foreign_keys=ON")
-	db.query("DELETE FROM 'Weapon' WHERE char_id = '" + str(id) + "' AND weapon_name = '" + wepName + "'") 
+	db.query("DELETE FROM 'Weapon' WHERE owning_char = '" + str(id) + "' AND weapon_id = '" + str(wepId) + "'") 
 	
 	return
 #===================================================================================================

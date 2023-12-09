@@ -9,7 +9,7 @@ func _ready():
 	$DamageType.text = weaponDetails['damage']
 
 func _on_delete_button_pressed():
-	Database.db.open()
-	Database.deleteWeapon(weaponDetails['owning_char'], weaponDetails['weapon_name'])
-	Database.db.close()
+	Database.db.open_db()
+	Database.deleteWeapon(weaponDetails['owning_char'], weaponDetails['weapon_id'])
+	Database.db.close_db()
 	queue_free()

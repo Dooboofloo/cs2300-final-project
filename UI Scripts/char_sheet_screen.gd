@@ -404,8 +404,18 @@ func _on_persuasion_toggled(_toggled_on):
 	calculate_bonus(cSkills['Persuasion'])
 
 func refresh_weapons():
-	pass
+	for n in weaponsNode.get_children():
+		weaponsNode.remove_child(n)
+	
+	Database.db.open_db()
+	for w in Database.fetchWeapons():
+		var wpnBlrb = weaponBlurb.instantiate()
+		wpnBlrb.weaponDetails = w
+		weaponsNode.add_child(wpnBlrb)
+	Database.db.close_db()
 
 func _on_add_weapon_button_pressed():
-	
+	Database.db.open_db()
+	Database.addWeapon()
+	Database.db.close_db()
 	refresh_weapons()
