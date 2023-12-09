@@ -146,6 +146,7 @@ func newChar(): #Creates a new blank character linked with the active user. Used
 
 func deleteChar(id):#deletes character based on given uuid. Requires that id.
 	db.open_db()
+	db.query("PRAGMA foreign_keys=ON")
 	db.query("DELETE FROM 'Character Manager' WHERE char_id = '" + str(id) + "'") # This is the only line which should be needed to delete a character since CASCADE
 	db.close_db()
 	
@@ -474,24 +475,28 @@ func updateWeapon(dict, wepName, id = currentChar):
 #Alot less in here as some make no sense regarding everbeing singularly deleted.
 #===================================================================================================
 func deleteUser(username):
+	db.query("PRAGMA foreign_keys=ON")
 	db.query("DELETE FROM 'User' WHERE username = '" + username + "'") # This is the only line which should be needed to delete a character since CASCADE
 	
 	return
 
 
 func deleteBackstory(id):
+	db.query("PRAGMA foreign_keys=ON")
 	db.query("DELETE FROM 'Backstory' WHERE char_id = '" + str(id) + "'") 
 	
 	return
 
 
 func deleteSkill(id, govScore, skillName):
+	db.query("PRAGMA foreign_keys=ON")
 	db.query("DELETE FROM 'Skill' WHERE char_id = '" + str(id) + "' AND governing_score = '" + govScore + "' AND skill_name = '" + skillName + "'") 
 	
 	return
 
 
 func deleteSpell(id, spellName):
+	db.query("PRAGMA foreign_keys=ON")
 	db.query("DELETE FROM 'Spell' WHERE char_id = '" + str(id) + "' AND name = '" + spellName + "'") 
 	
 	return
@@ -499,6 +504,7 @@ func deleteSpell(id, spellName):
 
 
 func deleteSpellSlot(id, slotLevel): #This function could easily be completely useless. Edit PKs if so to fix conditions here.
+	db.query("PRAGMA foreign_keys=ON")
 	db.query("DELETE FROM 'Spell Slot' WHERE char_id = '" + str(id) + "' AND slot_level = '" + str(slotLevel) + "'") 
 	
 	return
@@ -506,12 +512,14 @@ func deleteSpellSlot(id, slotLevel): #This function could easily be completely u
 
 
 func deleteSpellcasting(id):
+	db.query("PRAGMA foreign_keys=ON")
 	db.query("DELETE FROM 'Spellcasting' WHERE char_id = '" + str(id) + "'") 
 	
 	return
 
 
 func deleteWeapon(id, wepName):
+	db.query("PRAGMA foreign_keys=ON")
 	db.query("DELETE FROM 'Weapon' WHERE char_id = '" + str(id) + "' AND weapon_name = '" + wepName + "'") 
 	
 	return

@@ -1,5 +1,7 @@
 extends Control
 
+@onready var delete_button = $SideContainer/Panel/MarginContainer/VBoxContainer/HBoxContainer2/DeleteButton
+
 const CLASS_TO_ID = {
 	'Artificer': 0,
 	'Barbarian': 1,
@@ -54,3 +56,17 @@ func _on_save_button_pressed():
 	Database.db.open_db()
 	Database.updateChar(updateDict)
 	Database.db.close_db()
+
+
+var delete_button_pressed = 0
+func _on_delete_button_pressed():
+	match delete_button_pressed:
+		0:
+			delete_button.text = "Are you sure? (No undo)"
+		1:
+			delete_button.text = "Click again to delete."
+		2:
+			Database.deleteChar(Database.currentChar)
+			_on_back_button_pressed()
+	
+	delete_button_pressed += 1

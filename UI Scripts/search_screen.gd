@@ -3,7 +3,7 @@ extends Control
 var sheetblurb = preload("res://Scenes/Instantiable/sheet_blurb.tscn")
 
 @onready var CharList = $CharListContainer/PanelContainer/MarginContainer/ScrollContainer/CharacterList
-@onready var keyword = $SideContainer/Panel/MarginContainer/VBoxContainer2/KeywordLineEdit
+@onready var keyword = $"SideContainer/Panel/MarginContainer/Sort Types/SearchBar/KeywordLineEdit"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
