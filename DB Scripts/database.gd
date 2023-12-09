@@ -18,7 +18,8 @@ const ABILITY_SCORES = {
 
 #global variables
 var db 
-var db_name = "user://database"	#path to db 
+var premade_db = "res://DB Scripts/database"
+var db_name = "user://database" #path to db 
 var activeUser = "" #Stores active user for sql queries
 var currentChar = 0 #Stores current character uuid
 
@@ -27,13 +28,8 @@ func _ready():
 	db = SQLite.new()	#This creates the database
 	db.path = db_name	#This provides the path to the database
 	
-	#if not (FileAccess.file_exists(db_name)):
-		#generate_database()
-#
-#func generate_database():
-	#db.open_db()
-	#
-	#db.close_db()
+	if not (FileAccess.file_exists(db_name)):
+		DirAccess.copy_absolute(premade_db + '.db', db_name + '.db')
 
 
 
