@@ -27,13 +27,28 @@ func _ready():
 	db = SQLite.new() #This creates the database
 	db.path = db_name #This provides the path to the database
 	
-	if not (FileAccess.file_exists(db_name)):
+	if not (FileAccess.file_exists(db_name + '.db')):
 		generate_db()
 
 func generate_db():
 	db.open_db()
+	# user, charmgr, char, then doesnt matter
+	db.query('CREATE TABLE "User" ( "username" TEXT NOT NULL UNIQUE, "password" TEXT NOT NULL, PRIMARY KEY("username"))')
+	db.query('CREATE TABLE "Character Manager" ( "user" TEXT NOT NULL, "char_id" INTEGER NOT NULL UNIQUE, FOREIGN KEY("user") REFERENCES "User"("username") ON DELETE CASCADE, PRIMARY KEY("char_id" AUTOINCREMENT))')
+	db.query('CREATE TABLE "Character" ( "uuid" INTEGER NOT NULL UNIQUE, "name" TEXT, "level" INTEGER DEFAULT 1, "class" TEXT, "prof_bonus" INTEGER DEFAULT 2, "equipment" TEXT DEFAULT "", "notes" TEXT, FOREIGN KEY("uuid") REFERENCES "Character Manager"("char_id") ON DELETE CASCADE, PRIMARY KEY("uuid"))')
 	
-	db.query('')
+	db.query('CREATE TABLE "Ability Score" ( "char_id" INTEGER NOT NULL, "name" TEXT NOT NULL, "score" INTEGER DEFAULT 10, "modifier" INTEGER DEFAULT 0, FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("char_id","name"))')
+	db.query('CREATE TABLE "Backstory" ( "char_id" INTEGER NOT NULL UNIQUE, "race" TEXT DEFAULT "Human", "background" TEXT DEFAULT "Soldier", "alignment" TEXT DEFAULT "Lawful Good", FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE,PRIMARY KEY("char_id"))')
+	db.query('CREATE TABLE "Death Saves" ( "char_id" INTEGER NOT NULL UNIQUE, "num_success" INTEGER DEFAULT 0, "num_fail" INTEGER DEFAULT 0, FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("char_id"))')
+	db.query('CREATE TABLE "Hit Dice" ( "char_id" INTEGER NOT NULL UNIQUE, "num_used" INTEGER DEFAULT 0, "total" INTEGER DEFAULT 1, "type" INTEGER DEFAULT 10, FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("char_id"))')
+	db.query('CREATE TABLE "Hit Points" ( "char_id" INTEGER NOT NULL UNIQUE, "max" INTEGER DEFAULT 0, "current" INTEGER DEFAULT 0, "temp" INTEGER DEFAULT 0, FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("char_id"))')
+	db.query('CREATE TABLE "Money" ( "char_id" INTEGER NOT NULL UNIQUE, "cp" INTEGER DEFAULT 0, "sp" INTEGER DEFAULT 0, "ep" INTEGER DEFAULT 0, "gp" INTEGER DEFAULT 0, "pp" INTEGER DEFAULT 0, FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("char_id"))')
+	db.query('CREATE TABLE "Physical Stats" ( "char_id" INTEGER NOT NULL UNIQUE, "armor_class" INTEGER DEFAULT 10, "initiative" INTEGER DEFAULT 0, "speed" INTEGER DEFAULT 30, FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("char_id"))')
+	db.query('CREATE TABLE "Skill" ( "char_id" INTEGER NOT NULL, "governing_score" TEXT NOT NULL, "skill_name" TEXT NOT NULL, "proficiency_mult" INTEGER DEFAULT 0, "bonus" INTEGER DEFAULT 0, FOREIGN KEY("char_id","governing_score") REFERENCES "Ability Score"("char_id","name") ON DELETE CASCADE, PRIMARY KEY("char_id","governing_score","skill_name"))')
+	db.query('CREATE TABLE "Spell" ( "char_id" INTEGER NOT NULL, "spell_id" INTEGER NOT NULL UNIQUE, "level" INTEGER DEFAULT 1, "name" TEXT NOT NULL DEFAULT "Spell Name", FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("spell_id" AUTOINCREMENT))')
+	db.query('CREATE TABLE "Spell Slot" ( "char_id" INTEGER NOT NULL, "slot_level" INTEGER NOT NULL DEFAULT 1, "total" INTEGER DEFAULT 0, "num_expended" INTEGER DEFAULT 0, FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("char_id","slot_level"))')
+	db.query('CREATE TABLE "Spellcasting" ( "char_id" INTEGER NOT NULL UNIQUE, "ability_score" TEXT, "save_dc" INTEGER DEFAULT 0, "atk_bonus" INTEGER DEFAULT 0, FOREIGN KEY("char_id") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("char_id"))')
+	db.query('CREATE TABLE "Weapon" ( "owning_char" INTEGER NOT NULL, "weapon_id" INTEGER NOT NULL UNIQUE, "weapon_name" TEXT NOT NULL DEFAULT "Shortsword", "atk_bonus" INTEGER DEFAULT 0, "damage" TEXT DEFAULT "Damage", FOREIGN KEY("owning_char") REFERENCES "Character"("uuid") ON DELETE CASCADE, PRIMARY KEY("weapon_id" AUTOINCREMENT))')
 	
 	db.close_db()
 
