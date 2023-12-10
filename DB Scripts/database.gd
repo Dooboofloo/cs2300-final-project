@@ -18,20 +18,24 @@ const ABILITY_SCORES = {
 
 #global variables
 var db 
-var premade_db = "res://DB Scripts/database"
 var db_name = "user://database" #path to db 
 var activeUser = "" #Stores active user for sql queries
 var currentChar = 0 #Stores current character uuid
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	db = SQLite.new()	#This creates the database
-	db.path = db_name	#This provides the path to the database
+	db = SQLite.new() #This creates the database
+	db.path = db_name #This provides the path to the database
 	
 	if not (FileAccess.file_exists(db_name)):
-		DirAccess.copy_absolute(premade_db + '.db', db_name + '.db')
+		generate_db()
 
-
+func generate_db():
+	db.open_db()
+	
+	db.query('')
+	
+	db.close_db()
 
 
 #Login Screen Functions
