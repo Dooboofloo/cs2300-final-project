@@ -107,11 +107,9 @@ metadata/_edit_lock_ = true
 [node name="TabBar" type="TabContainer" parent="CharContainer"]
 layout_mode = 2
 tab_alignment = 1
-current_tab = 3
 metadata/_edit_lock_ = true
 
 [node name="Info" type="MarginContainer" parent="CharContainer/TabBar"]
-visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 15
@@ -785,6 +783,7 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="Spellcasting" type="MarginContainer" parent="CharContainer/TabBar"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15

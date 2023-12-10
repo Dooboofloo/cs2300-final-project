@@ -32,7 +32,7 @@ func _ready():
 
 func generate_db():
 	db.open_db()
-	# user, charmgr, char, then doesnt matter
+	
 	db.query('CREATE TABLE "User" ( "username" TEXT NOT NULL UNIQUE, "password" TEXT NOT NULL, PRIMARY KEY("username"))')
 	db.query('CREATE TABLE "Character Manager" ( "user" TEXT NOT NULL, "char_id" INTEGER NOT NULL UNIQUE, FOREIGN KEY("user") REFERENCES "User"("username") ON DELETE CASCADE, PRIMARY KEY("char_id" AUTOINCREMENT))')
 	db.query('CREATE TABLE "Character" ( "uuid" INTEGER NOT NULL UNIQUE, "name" TEXT, "level" INTEGER DEFAULT 1, "class" TEXT, "prof_bonus" INTEGER DEFAULT 2, "equipment" TEXT DEFAULT "", "notes" TEXT, FOREIGN KEY("uuid") REFERENCES "Character Manager"("char_id") ON DELETE CASCADE, PRIMARY KEY("uuid"))')
